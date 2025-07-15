@@ -41,6 +41,7 @@ function loadCourse(course) {
     notes = [];
   }
   currentCourse = course;
+  console.log(`Loaded course ${course} with ${notes.length} notes`);
 }
 
 function saveNotes() {
@@ -49,6 +50,7 @@ function saveNotes() {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   const file = path.join(dir, 'notes.json');
   fs.writeFileSync(file, JSON.stringify(notes, null, 2));
+  console.log(`Saved ${notes.length} notes for course ${currentCourse}`);
 }
 
 app.get('/courses', (req, res) => {
@@ -64,6 +66,7 @@ app.post('/courses', (req, res) => {
   loadCourse(name);
   saveNotes();
   io.emit('courseLoaded', { course: name, notes });
+  console.log(`courseLoaded emitted for ${name}`);
   res.json({ course: name });
 });
 
@@ -73,6 +76,7 @@ app.post('/courses/:course/select', (req, res) => {
   if (!fs.existsSync(dir)) return res.status(404).json({ error: 'not found' });
   loadCourse(course);
   io.emit('courseLoaded', { course, notes });
+  console.log(`courseLoaded emitted for ${course}`);
   res.json({ course });
 });
 
@@ -93,13 +97,17 @@ app.get('/courses/:course/export', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  if (currentCourse) socket.emit('courseLoaded', { course: currentCourse, notes });
+  if (currentCourse) {
+    socket.emit('courseLoaded', { course: currentCourse, notes });
+    console.log(`Sent courseLoaded to ${socket.id} for ${currentCourse}`);
+  }
 
   socket.on('addNote', data => {
     const note = { timestamp: new Date().toISOString(), code: data.code, note: data.note };
     notes.push(note);
     saveNotes();
     io.emit('noteAdded', note);
+    console.log(`Added note to ${currentCourse}`, note);
   });
 
   socket.on('loadCourse', course => {
@@ -107,6 +115,7 @@ io.on('connection', (socket) => {
       loadCourse(course);
       socket.emit('courseLoaded', { course, notes });
       socket.broadcast.emit('courseLoaded', { course, notes });
+      console.log(`Socket ${socket.id} switched to course ${course}`);
     }
   });
 });
