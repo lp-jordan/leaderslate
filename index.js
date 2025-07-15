@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { Server } = require('socket.io');
 const csvWriter = require('csv-writer').createObjectCsvWriter;
+const os = require('os');
 
 const app = express();
 const server = http.createServer(app);
@@ -11,6 +12,18 @@ const io = new Server(server);
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/ip', (req, res) => {
+  const nets = os.networkInterfaces();
+  for (const name of Object.keys(nets)) {
+    for (const iface of nets[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return res.json({ ip: iface.address });
+      }
+    }
+  }
+  res.json({ ip: 'unknown' });
+});
 
 const COURSES_DIR = path.join(__dirname, 'courses');
 if (!fs.existsSync(COURSES_DIR)) {

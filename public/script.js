@@ -17,6 +17,13 @@ const noteInput = document.getElementById('noteInput');
 const addNoteBtn = document.getElementById('addNote');
 const notesLog = document.getElementById('notesLog');
 const exportCsv = document.getElementById('exportCsv');
+const ipAddress = document.getElementById('ipAddress');
+
+fetch('/ip')
+  .then(r => r.json())
+  .then(data => {
+    ipAddress.textContent = data.ip;
+  });
 
 function refreshCourseList() {
   fetch('/courses').then(r => r.json()).then(data => {
@@ -63,7 +70,16 @@ socket.on('noteAdded', note => {
 function renderNote(note) {
   const div = document.createElement('div');
   div.className = 'noteItem';
-  div.textContent = `[${note.timestamp}] ${note.code} - ${note.note}`;
+
+  const ts = document.createElement('span');
+  ts.className = 'timestamp';
+  ts.textContent = `[${note.timestamp}]`;
+
+  const text = document.createElement('span');
+  text.textContent = ` ${note.code} - ${note.note}`;
+
+  div.appendChild(ts);
+  div.appendChild(text);
   notesLog.appendChild(div);
   notesLog.scrollTop = notesLog.scrollHeight;
 }
