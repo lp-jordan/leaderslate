@@ -115,7 +115,10 @@ io.on('connection', (socket) => {
   }
 
   socket.on('addNote', data => {
-    const note = { timestamp: new Date().toISOString(), code: data.code, note: data.note };
+    const now = new Date();
+    const frames = Math.floor(now.getMilliseconds() / 40); // approx 25fps
+    const timestamp = now.toTimeString().split(' ')[0] + ':' + String(frames).padStart(2, '0');
+    const note = { timestamp, code: data.code, note: data.note };
     notes.push(note);
     saveNotes();
     io.emit('noteAdded', note);
