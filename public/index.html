@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Timeslate</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    #timecode { font-size: 48px; margin: 20px; }
+    #notesLog { max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 5px; }
+    .noteItem { border-bottom: 1px solid #eee; padding: 2px; }
+  </style>
+</head>
+<body>
+  <h1>Timeslate</h1>
+  <div id="timecode">00:00:00:00</div>
+
+  <div>
+    <label>Course: </label>
+    <select id="courseSelect"></select>
+    <input id="newCourse" placeholder="New Course" />
+    <button id="createCourse">Create</button>
+  </div>
+
+  <div>
+    <input id="codeInput" placeholder="Code" />
+    <input id="noteInput" placeholder="Production Notes" size="40" />
+    <button id="addNote">Add Note</button>
+  </div>
+
+  <div>
+    <button id="exportCsv">Export CSV</button>
+  </div>
+
+  <div id="notesLog"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
