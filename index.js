@@ -10,6 +10,18 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+function getHostIp() {
+  const nets = os.networkInterfaces();
+  for (const name of Object.keys(nets)) {
+    for (const iface of nets[name]) {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+  return 'localhost';
+}
+
 function log(...args) {
   console.log(...args);
   const msg = args.map(a => {
@@ -25,15 +37,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/ip', (req, res) => {
-  const nets = os.networkInterfaces();
-  for (const name of Object.keys(nets)) {
-    for (const iface of nets[name]) {
-      if (iface.family === 'IPv4' && !iface.internal) {
-        return res.json({ ip: iface.address });
-      }
-    }
-  }
-  res.json({ ip: 'unknown' });
+  res.json({ ip: getHostIp() });
 });
 
 const COURSES_DIR = path.join(__dirname, 'courses');
@@ -115,10 +119,16 @@ io.on('connection', (socket) => {
   }
 
   socket.on('addNote', data => {
+    if (!currentCourse) {
+      socket.emit('error', 'No course loaded');
+      return;
+    }
+
     const now = new Date();
     const frames = Math.floor(now.getMilliseconds() / 40); // approx 25fps
     const timestamp = now.toTimeString().split(' ')[0] + ':' + String(frames).padStart(2, '0');
     const note = { timestamp, code: data.code, note: data.note };
+
     notes.push(note);
     saveNotes();
     io.emit('noteAdded', note);
@@ -139,7 +149,8 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
-  log('Server listening on', PORT);
+  const ip = getHostIp();
+  log('Server listening on', `http://${ip}:${PORT}`);
 });

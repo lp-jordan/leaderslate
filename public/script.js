@@ -1,4 +1,4 @@
-const socket = io();
+let socket;
 let currentCourse = null;
 
 function updateTimecode() {
@@ -33,13 +33,12 @@ function devLog(msg) {
   devConsoleLog.scrollTop = devConsoleLog.scrollHeight;
 }
 
-socket.on('log', devLog);
-socket.on('connect', () => devLog('Connected to server'));
-
 fetch('/ip')
   .then(r => r.json())
   .then(data => {
     ipAddress.textContent = data.ip;
+    const url = `http://${data.ip}:4000`;
+    initSocket(url);
   });
 
 function refreshCourseList() {
@@ -63,7 +62,11 @@ courseSelect.addEventListener('change', () => {
 });
 
 addNoteBtn.addEventListener('click', () => {
-  socket.emit('addNote', { code: codeInput.value, note: noteInput.value });
+  if (!currentCourse) return;
+  socket.emit('addNote', {
+    code: codeInput.value,
+    note: noteInput.value
+  });
   codeInput.value = '';
   noteInput.value = '';
   devLog('Sent addNote');
@@ -75,17 +78,26 @@ exportCsv.addEventListener('click', () => {
   devLog(`Export CSV for ${currentCourse}`);
 });
 
-socket.on('courseLoaded', data => {
-  currentCourse = data.course;
-  notesLog.innerHTML = '';
-  data.notes.forEach(renderNote);
-  refreshCourseList();
-  devLog(`Course loaded ${data.course}`);
-});
+function initSocket(url) {
+  socket = io(url);
+  devLog(`Connecting to ${url}`);
+  socket.on('log', devLog);
+  socket.on('connect', () => devLog('Connected to server'));
+  socket.on('courseLoaded', data => {
+    currentCourse = data.course;
+    notesLog.innerHTML = '';
+    data.notes.forEach(renderNote);
+    refreshCourseList();
+    devLog(`Course loaded ${data.course}`);
+  });
+  socket.on('noteAdded', note => {
+    renderNote(note);
+    devLog('Note added');
+  });
+}
 
-socket.on('noteAdded', note => {
-  renderNote(note);
-  devLog('Note added');
+socket.on('error', message => {
+  alert(message);
 });
 
 function renderNote(note) {
