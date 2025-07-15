@@ -15,5 +15,5 @@ npm install
 node index.js
 ```
 
-Open `http://localhost:3000` in your browser. Multiple clients on the same
-network can access the same host to sync notes in realtime.
+Open `http://localhost:4000` in your browser. The server logs its URL on
+startup so you can access it from other machines on the same network.
