@@ -103,7 +103,16 @@ io.on('connection', (socket) => {
   }
 
   socket.on('addNote', data => {
-    const note = { timestamp: new Date().toISOString(), code: data.code, note: data.note };
+    if (!currentCourse) {
+      socket.emit('error', 'No course loaded');
+      return;
+    }
+
+    const note = {
+      timestamp: new Date().toISOString(),
+      code: data.code,
+      note: data.note
+    };
     notes.push(note);
     saveNotes();
     io.emit('noteAdded', note);

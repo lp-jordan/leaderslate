@@ -46,7 +46,11 @@ courseSelect.addEventListener('change', () => {
 });
 
 addNoteBtn.addEventListener('click', () => {
-  socket.emit('addNote', { code: codeInput.value, note: noteInput.value });
+  if (!currentCourse) return;
+  socket.emit('addNote', {
+    code: codeInput.value,
+    note: noteInput.value
+  });
   codeInput.value = '';
   noteInput.value = '';
 });
@@ -65,6 +69,10 @@ socket.on('courseLoaded', data => {
 
 socket.on('noteAdded', note => {
   renderNote(note);
+});
+
+socket.on('error', message => {
+  alert(message);
 });
 
 function renderNote(note) {
