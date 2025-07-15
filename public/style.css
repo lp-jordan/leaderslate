@@ -115,3 +115,30 @@ input:focus, select:focus {
   border-top: 1px solid #333;
 }
 
+#toggleDevConsole {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+#devConsole {
+  position: fixed;
+  bottom: 60px;
+  left: 20px;
+  width: 300px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--text);
+  border: 1px solid #333;
+  padding: 10px;
+  font-family: monospace;
+  display: none;
+  z-index: 999;
+}
+
+#devConsole.show {
+  display: block;
+}
+

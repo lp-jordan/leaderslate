@@ -18,6 +18,23 @@ const addNoteBtn = document.getElementById('addNote');
 const notesLog = document.getElementById('notesLog');
 const exportCsv = document.getElementById('exportCsv');
 const ipAddress = document.getElementById('ipAddress');
+const devConsole = document.getElementById('devConsole');
+const devConsoleLog = document.getElementById('devConsoleLog');
+const toggleDevConsole = document.getElementById('toggleDevConsole');
+
+toggleDevConsole.addEventListener('click', () => {
+  devConsole.classList.toggle('show');
+});
+
+function devLog(msg) {
+  const line = document.createElement('div');
+  line.textContent = msg;
+  devConsoleLog.appendChild(line);
+  devConsoleLog.scrollTop = devConsoleLog.scrollHeight;
+}
+
+socket.on('log', devLog);
+socket.on('connect', () => devLog('Connected to server'));
 
 fetch('/ip')
   .then(r => r.json())
@@ -37,23 +54,25 @@ createCourse.addEventListener('click', () => {
   const name = newCourse.value.trim();
   if (!name) return;
   fetch('/courses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) })
-    .then(() => { newCourse.value = ''; refreshCourseList(); });
+    .then(() => { newCourse.value = ''; refreshCourseList(); devLog(`Created course ${name}`); });
 });
 
 courseSelect.addEventListener('change', () => {
   const course = courseSelect.value;
-  fetch(`/courses/${course}/select`, { method: 'POST' }).then(() => {});
+  fetch(`/courses/${course}/select`, { method: 'POST' }).then(() => { devLog(`Selected course ${course}`); });
 });
 
 addNoteBtn.addEventListener('click', () => {
   socket.emit('addNote', { code: codeInput.value, note: noteInput.value });
   codeInput.value = '';
   noteInput.value = '';
+  devLog('Sent addNote');
 });
 
 exportCsv.addEventListener('click', () => {
   if (!currentCourse) return;
   window.location = `/courses/${currentCourse}/export`;
+  devLog(`Export CSV for ${currentCourse}`);
 });
 
 socket.on('courseLoaded', data => {
@@ -61,10 +80,12 @@ socket.on('courseLoaded', data => {
   notesLog.innerHTML = '';
   data.notes.forEach(renderNote);
   refreshCourseList();
+  devLog(`Course loaded ${data.course}`);
 });
 
 socket.on('noteAdded', note => {
   renderNote(note);
+  devLog('Note added');
 });
 
 function renderNote(note) {
