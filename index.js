@@ -10,6 +10,17 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+function log(...args) {
+  console.log(...args);
+  const msg = args.map(a => {
+    if (typeof a === 'object') {
+      try { return JSON.stringify(a); } catch (e) { return String(a); }
+    }
+    return String(a);
+  }).join(' ');
+  io.emit('log', msg);
+}
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -41,7 +52,7 @@ function loadCourse(course) {
     notes = [];
   }
   currentCourse = course;
-  console.log(`Loaded course ${course} with ${notes.length} notes`);
+  log(`Loaded course ${course} with ${notes.length} notes`);
 }
 
 function saveNotes() {
@@ -50,7 +61,7 @@ function saveNotes() {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   const file = path.join(dir, 'notes.json');
   fs.writeFileSync(file, JSON.stringify(notes, null, 2));
-  console.log(`Saved ${notes.length} notes for course ${currentCourse}`);
+  log(`Saved ${notes.length} notes for course ${currentCourse}`);
 }
 
 app.get('/courses', (req, res) => {
@@ -66,7 +77,7 @@ app.post('/courses', (req, res) => {
   loadCourse(name);
   saveNotes();
   io.emit('courseLoaded', { course: name, notes });
-  console.log(`courseLoaded emitted for ${name}`);
+  log(`courseLoaded emitted for ${name}`);
   res.json({ course: name });
 });
 
@@ -76,7 +87,7 @@ app.post('/courses/:course/select', (req, res) => {
   if (!fs.existsSync(dir)) return res.status(404).json({ error: 'not found' });
   loadCourse(course);
   io.emit('courseLoaded', { course, notes });
-  console.log(`courseLoaded emitted for ${course}`);
+  log(`courseLoaded emitted for ${course}`);
   res.json({ course });
 });
 
@@ -97,9 +108,10 @@ app.get('/courses/:course/export', (req, res) => {
 });
 
 io.on('connection', (socket) => {
+  log('Client connected', socket.id);
   if (currentCourse) {
     socket.emit('courseLoaded', { course: currentCourse, notes });
-    console.log(`Sent courseLoaded to ${socket.id} for ${currentCourse}`);
+    log(`Sent courseLoaded to ${socket.id} for ${currentCourse}`);
   }
 
   socket.on('addNote', data => {
@@ -107,7 +119,7 @@ io.on('connection', (socket) => {
     notes.push(note);
     saveNotes();
     io.emit('noteAdded', note);
-    console.log(`Added note to ${currentCourse}`, note);
+    log(`Added note to ${currentCourse}`, note);
   });
 
   socket.on('loadCourse', course => {
@@ -115,12 +127,16 @@ io.on('connection', (socket) => {
       loadCourse(course);
       socket.emit('courseLoaded', { course, notes });
       socket.broadcast.emit('courseLoaded', { course, notes });
-      console.log(`Socket ${socket.id} switched to course ${course}`);
+      log(`Socket ${socket.id} switched to course ${course}`);
     }
+  });
+
+  socket.on('disconnect', () => {
+    log('Client disconnected', socket.id);
   });
 });
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log('Server listening on', PORT);
+  log('Server listening on', PORT);
 });
