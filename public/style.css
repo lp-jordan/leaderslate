@@ -19,6 +19,19 @@ body {
   padding: 0;
 }
 
+.app-container {
+  max-width: 1200px; /* or whatever feels good for your layout */
+  margin: 0 auto;
+  padding: 2rem; /* optional: adds breathing room */
+  box-sizing: border-box;
+}
+
+.stacked-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* spacing between elements */
+}
+
 #topBar {
   display: flex;
   align-items: center;
@@ -28,8 +41,15 @@ body {
 }
 
 #logo {
-  font-size: 24px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* or center */
+  padding: 1rem;
+}
+
+#logo img {
+  max-width: 180px;
+  height: auto;
 }
 
 #timecode {
