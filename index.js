@@ -1,0 +1,104 @@
+const express = require('express');
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const { Server } = require('socket.io');
+const csvWriter = require('csv-writer').createObjectCsvWriter;
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+const COURSES_DIR = path.join(__dirname, 'courses');
+if (!fs.existsSync(COURSES_DIR)) {
+  fs.mkdirSync(COURSES_DIR);
+}
+
+let currentCourse = null;
+let notes = [];
+
+function loadCourse(course) {
+  const file = path.join(COURSES_DIR, course, 'notes.json');
+  if (fs.existsSync(file)) {
+    notes = JSON.parse(fs.readFileSync(file));
+  } else {
+    notes = [];
+  }
+  currentCourse = course;
+}
+
+function saveNotes() {
+  if (!currentCourse) return;
+  const dir = path.join(COURSES_DIR, currentCourse);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  const file = path.join(dir, 'notes.json');
+  fs.writeFileSync(file, JSON.stringify(notes, null, 2));
+}
+
+app.get('/courses', (req, res) => {
+  const courses = fs.readdirSync(COURSES_DIR).filter(f => fs.lstatSync(path.join(COURSES_DIR, f)).isDirectory());
+  res.json({ courses, current: currentCourse });
+});
+
+app.post('/courses', (req, res) => {
+  const { name } = req.body;
+  if (!name) return res.status(400).json({ error: 'name required' });
+  const dir = path.join(COURSES_DIR, name);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+  loadCourse(name);
+  saveNotes();
+  io.emit('courseLoaded', { course: name, notes });
+  res.json({ course: name });
+});
+
+app.post('/courses/:course/select', (req, res) => {
+  const course = req.params.course;
+  const dir = path.join(COURSES_DIR, course);
+  if (!fs.existsSync(dir)) return res.status(404).json({ error: 'not found' });
+  loadCourse(course);
+  io.emit('courseLoaded', { course, notes });
+  res.json({ course });
+});
+
+app.get('/courses/:course/export', (req, res) => {
+  const course = req.params.course;
+  const file = path.join(COURSES_DIR, course, 'notes.json');
+  if (!fs.existsSync(file)) return res.status(404).json({ error: 'not found' });
+  const notesData = JSON.parse(fs.readFileSync(file));
+  const csvFile = path.join(COURSES_DIR, course, 'notes.csv');
+  const writer = csvWriter({ path: csvFile, header: [
+    { id: 'timestamp', title: 'Timestamp' },
+    { id: 'code', title: 'Code' },
+    { id: 'note', title: 'Note' }
+  ]});
+  writer.writeRecords(notesData).then(() => {
+    res.download(csvFile, 'notes.csv');
+  });
+});
+
+io.on('connection', (socket) => {
+  if (currentCourse) socket.emit('courseLoaded', { course: currentCourse, notes });
+
+  socket.on('addNote', data => {
+    const note = { timestamp: new Date().toISOString(), code: data.code, note: data.note };
+    notes.push(note);
+    saveNotes();
+    io.emit('noteAdded', note);
+  });
+
+  socket.on('loadCourse', course => {
+    if (fs.existsSync(path.join(COURSES_DIR, course))) {
+      loadCourse(course);
+      socket.emit('courseLoaded', { course, notes });
+      socket.broadcast.emit('courseLoaded', { course, notes });
+    }
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log('Server listening on', PORT);
+});
