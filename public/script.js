@@ -10,9 +10,19 @@ function updateTimecode() {
 }
 setInterval(updateTimecode, 40);
 
+function updateDate() {
+  const now = new Date();
+  const opts = { weekday: 'long', month: 'long', day: 'numeric' };
+  document.getElementById('currentDate').innerText = now.toLocaleDateString(undefined, opts);
+}
+updateDate();
+setInterval(updateDate, 60 * 60 * 1000);
+
 const courseSelect = document.getElementById('courseSelect');
 const newCourse = document.getElementById('newCourse');
 const createCourse = document.getElementById('createCourse');
+const addCourseBtn = document.getElementById('addCourseBtn');
+const newCourseControls = document.getElementById('newCourseControls');
 const renameCourseBtn = document.getElementById('renameCourse');
 const deleteCourseBtn = document.getElementById('deleteCourse');
 const codeInput = document.getElementById('codeInput');
@@ -113,11 +123,23 @@ function refreshCourseList() {
 }
 refreshCourseList();
 
+addCourseBtn.addEventListener('click', () => {
+  newCourseControls.classList.toggle('hidden');
+  if (!newCourseControls.classList.contains('hidden')) {
+    newCourse.focus();
+  }
+});
+
 createCourse.addEventListener('click', () => {
   const name = newCourse.value.trim();
   if (!name) return;
   fetch('/courses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) })
-    .then(() => { newCourse.value = ''; refreshCourseList(); devLog(`Created course ${name}`); });
+    .then(() => {
+      newCourse.value = '';
+      newCourseControls.classList.add('hidden');
+      refreshCourseList();
+      devLog(`Created course ${name}`);
+    });
 });
 
 renameCourseBtn.addEventListener('click', () => {
