@@ -293,7 +293,6 @@ function renderNote(note, index) {
   ts.textContent = `[${note.timestamp}]`;
 
   const text = document.createElement('span');
-  text.className = 'noteText';
   text.textContent = ` ${note.code} - ${note.note}`;
 
   const actions = document.createElement('span');
