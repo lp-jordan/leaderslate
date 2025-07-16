@@ -85,7 +85,6 @@ body {
 
 #codeInput {
   height: 200px;
-
   font-size: 24px;
 }
 
@@ -103,7 +102,7 @@ button, input, select, textarea {
 
 button:hover, button:focus {
   border-color: var(--accent);
-  border-radius: 9999px;
+  border-radius: 5px;
 }
 
 input:focus, select:focus, textarea:focus {
