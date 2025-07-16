@@ -9,9 +9,18 @@ function updateTimecode() {
 }
 setInterval(updateTimecode, 40);
 
+function updateDate() {
+  const now = new Date();
+  const options = { weekday: 'long', month: 'long', day: 'numeric' };
+  document.getElementById('currentDate').innerText = now.toLocaleDateString(undefined, options);
+}
+updateDate();
+
 const courseSelect = document.getElementById('courseSelect');
 const newCourse = document.getElementById('newCourse');
 const createCourse = document.getElementById('createCourse');
+const showNewCourse = document.getElementById('showNewCourse');
+const newCourseContainer = document.getElementById('newCourseContainer');
 const codeInput = document.getElementById('codeInput');
 const noteInput = document.getElementById('noteInput');
 const addNoteBtn = document.getElementById('addNote');
@@ -49,11 +58,25 @@ function refreshCourseList() {
 }
 refreshCourseList();
 
+showNewCourse.addEventListener('click', () => {
+  if (newCourseContainer.style.display === 'none') {
+    newCourseContainer.style.display = 'inline';
+    newCourse.focus();
+  } else {
+    newCourseContainer.style.display = 'none';
+  }
+});
+
 createCourse.addEventListener('click', () => {
   const name = newCourse.value.trim();
   if (!name) return;
   fetch('/courses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) })
-    .then(() => { newCourse.value = ''; refreshCourseList(); devLog(`Created course ${name}`); });
+    .then(() => {
+      newCourse.value = '';
+      newCourseContainer.style.display = 'none';
+      refreshCourseList();
+      devLog(`Created course ${name}`);
+    });
 });
 
 courseSelect.addEventListener('change', () => {
