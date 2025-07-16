@@ -2,6 +2,7 @@
   --background: #000000;
   --text: #ffffff;
   --accent: #FFD700;
+  --scale: 1; /* default scale factor */
 }
 
 @font-face {
@@ -26,10 +27,17 @@ body {
 }
 
 .app-container {
-  max-width: 1200px; /* or whatever feels good for your layout */
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem; /* optional: adds breathing room */
+  padding: 2rem; /* adds breathing room */
   box-sizing: border-box;
+}
+
+#appWrapper {
+  width: 1200px; /* base layout width */
+  margin: 0 auto;
+  transform-origin: top left;
+  transform: scale(var(--scale));
 }
 
 .stacked-container {
