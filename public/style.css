@@ -52,9 +52,14 @@ body {
   height: auto;
 }
 
-#timecode {
+#currentDate, #timecode {
   font-size: 48px;
   font-family: 'Courier New', monospace;
+}
+
+#timecodeContainer {
+  text-align: right;
+  padding: 10px 20px;
 }
 
 #courseSelector {
@@ -63,15 +68,21 @@ body {
 
 #notePanel {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   padding: 20px;
 }
 
-#notePanel input {
-  flex: 1;
+#notePanel input,
+#notePanel textarea {
+  width: 100%;
 }
 
-button, input, select {
+#codeInput {
+  height: 200px;
+}
+
+button, input, select, textarea {
   background-color: #111;
   color: var(--text);
   border: 1px solid #555;
@@ -84,7 +95,7 @@ button:hover, button:focus {
   box-shadow: 0 0 5px var(--accent);
 }
 
-input:focus, select:focus {
+input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 5px var(--accent);
@@ -182,5 +193,9 @@ input:focus, select:focus {
 
 .modalActions button {
   margin-left: 10px;
+}
+
+.hidden {
+  display: none;
 }
 
