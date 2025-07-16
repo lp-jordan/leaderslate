@@ -7,6 +7,7 @@ A simple production note logging app with realtime sync.
 - Input fields for `Code` and `Production Notes`.
 - Notes are stored by course (project) and synced in realtime across clients.
 - The `Code` field syncs live across connected clients.
+- Press Enter in the Production Notes field or click Send to add a note.
 - Export notes to CSV.
 
 ## Usage
