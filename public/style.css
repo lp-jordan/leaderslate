@@ -17,6 +17,10 @@
   font-style: normal;
 }
 
+html {
+  font-size: clamp(16px, 1.2vw, 22px);
+}
+
 body {
   background-color: var(--background);
   color: var(--text);
@@ -42,7 +46,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 1.25rem;
   border-bottom: 1px solid #333;
 }
 
@@ -54,34 +58,34 @@ body {
 }
 
 #logo img {
-  max-width: 180px;
+  max-width: 11.25rem;
   height: auto;
 }
 
 #currentDate {
-  font-size: 48px;
+  font-size: 3rem;
   font-family: 'Metropolis', Arial, sans-serif;
   font-weight: bold;
 }
 
 #timecode {
-  font-size: 96px;
+  font-size: 6rem;
   font-family: Arial, sans-serif;
 }
 
 #timecodeContainer {
   text-align: center;
-  padding: 10px 0;
+  padding: 0.625rem 0;
 }
 
 #courseSelector {
-  margin: 20px;
+  margin: 1.25rem;
 }
 
 #noCourseText {
-  padding: 8px 12px;
+  padding: 0.5rem 0.75rem;
   border: 1px solid #555;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   background-color: #111;
   color: #777;
 }
@@ -89,13 +93,13 @@ body {
 #notePanel {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
+  gap: 1.25rem;
+  padding: 1.25rem;
 }
 
 #noteInputs {
   display: flex;
-  gap: 20px;
+  gap: 1.25rem;
   width: 100%;
   align-items: stretch;
 }
@@ -113,20 +117,20 @@ body {
 #noteInputWrapper input {
   width: 100%;
   box-sizing: border-box;
-  padding-right: 60px;
+  padding-right: 3.75rem;
 }
 
 #noteInputWrapper button {
   position: absolute;
-  bottom: 6px;
-  right: 6px;
+  bottom: 0.375rem;
+  right: 0.375rem;
 }
 
 #codeInput {
   flex: 1;
   width: 100%;
   aspect-ratio: 1 / 1;
-  font-size: clamp(48px, 6vw, 96px);
+  font-size: clamp(3rem, 6vw, 6rem);
   font-weight: bold;
   text-align: center;
   display: flex;
@@ -135,8 +139,8 @@ body {
 
   background-color: #1a1a1a;
   color: #ffffff;
-  border: 2px solid #444;
-  border-radius: 12px;
+  border: 0.125rem solid #444;
+  border-radius: 0.75rem;
   resize: none;
 }
 
@@ -145,7 +149,7 @@ body {
 }
 
 #codeInput::placeholder {
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 #noteInput::placeholder {
@@ -158,13 +162,13 @@ button, input, select, textarea {
   background-color: #111;
   color: var(--text);
   border: 1px solid #555;
-  padding: 8px 12px;
-  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.3125rem;
 }
 
 button:hover, button:focus {
   border-color: var(--accent);
-  border-radius: 5px;
+  border-radius: 0.3125rem;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -173,20 +177,20 @@ input:focus, select:focus, textarea:focus {
 }
 
 #notesLog {
-  max-height: 300px;
+  max-height: 18.75rem;
   overflow-y: auto;
   border: 1px solid #333;
-  padding: 10px;
-  margin: 0 20px;
+  padding: 0.625rem;
+  margin: 0 1.25rem;
 }
 
 .noteItem {
   border-bottom: 1px solid #444;
-  padding: 4px 0;
+  padding: 0.25rem 0;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  column-gap: 10px;
+  column-gap: 0.625rem;
 }
 
 .noteText {
@@ -194,7 +198,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .noteActions span {
-  margin-left: 5px;
+  margin-left: 0.3125rem;
 }
 
 .noteItem .timestamp {
@@ -205,28 +209,28 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 1.25rem;
   border-top: 1px solid #333;
 }
 
 #toggleDevConsole {
   position: fixed;
-  bottom: 20px;
-  left: 20px;
+  bottom: 1.25rem;
+  left: 1.25rem;
   z-index: 1000;
 }
 
 #devConsole {
   position: fixed;
-  bottom: 60px;
-  left: 20px;
-  width: 300px;
-  max-height: 200px;
+  bottom: 3.75rem;
+  left: 1.25rem;
+  width: 18.75rem;
+  max-height: 12.5rem;
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.8);
   color: var(--text);
   border: 1px solid #333;
-  padding: 10px;
+  padding: 0.625rem;
   font-family: monospace;
   display: none;
   z-index: 999;
@@ -256,19 +260,19 @@ input:focus, select:focus, textarea:focus {
 .modal {
   background: #222;
   border: 1px solid #555;
-  padding: 20px;
-  border-radius: 5px;
-  width: 300px;
+  padding: 1.25rem;
+  border-radius: 0.3125rem;
+  width: 18.75rem;
   color: var(--text);
 }
 
 .modalActions {
-  margin-top: 10px;
+  margin-top: 0.625rem;
   text-align: right;
 }
 
 .modalActions button {
-  margin-left: 10px;
+  margin-left: 0.625rem;
 }
 
 .hidden {
