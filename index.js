@@ -96,6 +96,36 @@ app.post('/courses/:course/select', (req, res) => {
   res.json({ course });
 });
 
+app.post('/courses/:course/rename', (req, res) => {
+  const course = req.params.course;
+  const newName = req.body.name;
+  if (!newName) return res.status(400).json({ error: 'name required' });
+  const dir = path.join(COURSES_DIR, course);
+  if (!fs.existsSync(dir)) return res.status(404).json({ error: 'not found' });
+  const newDir = path.join(COURSES_DIR, newName);
+  fs.renameSync(dir, newDir);
+  if (currentCourse === course) {
+    loadCourse(newName);
+    io.emit('courseLoaded', { course: newName, notes });
+  }
+  log(`Renamed course ${course} to ${newName}`);
+  res.json({ course: newName });
+});
+
+app.delete('/courses/:course', (req, res) => {
+  const course = req.params.course;
+  const dir = path.join(COURSES_DIR, course);
+  if (!fs.existsSync(dir)) return res.status(404).json({ error: 'not found' });
+  fs.rmSync(dir, { recursive: true, force: true });
+  if (currentCourse === course) {
+    currentCourse = null;
+    notes = [];
+  }
+  io.emit('courseDeleted', course);
+  log(`Deleted course ${course}`);
+  res.json({});
+});
+
 app.get('/courses/:course/export', (req, res) => {
   const course = req.params.course;
   const file = path.join(COURSES_DIR, course, 'notes.json');
@@ -137,6 +167,23 @@ io.on('connection', (socket) => {
     saveNotes();
     io.emit('noteAdded', note);
     log(`Added note to ${currentCourse}`, note);
+  });
+
+  socket.on('editNote', data => {
+    if (typeof data.index !== 'number' || !notes[data.index]) return;
+    notes[data.index].code = data.code;
+    notes[data.index].note = data.note;
+    saveNotes();
+    io.emit('noteEdited', { index: data.index, note: notes[data.index] });
+    log(`Edited note ${data.index} in ${currentCourse}`);
+  });
+
+  socket.on('deleteNote', index => {
+    if (typeof index !== 'number' || !notes[index]) return;
+    notes.splice(index, 1);
+    saveNotes();
+    io.emit('noteDeleted', index);
+    log(`Deleted note ${index} from ${currentCourse}`);
   });
 
   socket.on('loadCourse', course => {

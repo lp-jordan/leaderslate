@@ -118,6 +118,13 @@ input:focus, select:focus {
 .noteItem {
   border-bottom: 1px solid #444;
   padding: 4px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.noteActions span {
+  margin-left: 5px;
 }
 
 .noteItem .timestamp {
