@@ -78,14 +78,27 @@ body {
   padding: 20px;
 }
 
-#notePanel input,
-#notePanel textarea {
+#noteInputs {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  align-items: stretch;
+}
+
+#noteInputs textarea,
+#noteInputs input {
   width: 100%;
 }
 
 #codeInput {
-  height: 200px;
+  flex: 1;
+  aspect-ratio: 1 / 1;
   font-size: 24px;
+}
+
+#noteInput {
+  flex: 4;
+  height: 100%;
 }
 
 #codeInput::placeholder {
