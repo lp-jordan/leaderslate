@@ -188,6 +188,7 @@ body {
 }
 
 #noteInput::placeholder {
+  font-size: 1.5rem;
   vertical-align: top;
   text-align: left;
   line-height: 1.2;
