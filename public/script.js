@@ -391,24 +391,32 @@ function renderNote(note, index) {
 
   if (batchMode) {
     actions.classList.add('hidden');
+    selectBox.classList.remove('hidden');
   }
 
   div.addEventListener('click', (e) => {
-if (e.shiftKey && !batchMode) {
-  enterBatchMode();
-}
-
-if (batchMode) {
-  if (selected.has(index)) {
-    selected.delete(index);
-    div.classList.remove('selected');
-  } else {
-    selected.add(index);
-    div.classList.add('selected');
-  }
-  return;
-}
-
-openEditNoteModal(note, index);
+    if (batchMode) {
+      toggleSelection();
+      if (selected.size === 0) exitBatchMode();
+      return;
+    }
+    if (e.ctrlKey || e.metaKey) {
+      enterBatchMode();
+      toggleSelection();
+      return;
+    }
+    openEditNoteModal(note, index);
   });
+
+  function toggleSelection() {
+    if (selected.has(index)) {
+      selected.delete(index);
+      div.classList.remove('selected');
+      selectBox.checked = false;
+    } else {
+      selected.add(index);
+      div.classList.add('selected');
+      selectBox.checked = true;
+    }
+  }
 }
