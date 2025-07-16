@@ -120,6 +120,7 @@ app.delete('/courses/:course', (req, res) => {
   if (currentCourse === course) {
     currentCourse = null;
     notes = [];
+    io.emit('noActiveCourse');
   }
   io.emit('courseDeleted', course);
   log(`Deleted course ${course}`);
@@ -147,6 +148,8 @@ io.on('connection', (socket) => {
   if (currentCourse) {
     socket.emit('courseLoaded', { course: currentCourse, notes });
     log(`Sent courseLoaded to ${socket.id} for ${currentCourse}`);
+  } else {
+    socket.emit('noActiveCourse');
   }
   if (currentCodeText) {
     socket.emit('codeUpdate', currentCodeText);

@@ -71,6 +71,14 @@ body {
   margin: 20px;
 }
 
+#noCourseText {
+  padding: 8px 12px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #111;
+  color: #777;
+}
+
 #notePanel {
   display: flex;
   flex-direction: column;
@@ -219,5 +227,15 @@ input:focus, select:focus, textarea:focus {
 
 .hidden {
   display: none;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: #333;
+  color: #777;
+  border-color: #444;
+  cursor: not-allowed;
 }
 
