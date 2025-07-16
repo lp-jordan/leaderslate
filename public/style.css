@@ -52,9 +52,19 @@ body {
   height: auto;
 }
 
-#timecode {
+#currentDate {
   font-size: 48px;
   font-family: 'Courier New', monospace;
+}
+
+#timecode {
+  font-size: 72px;
+  font-family: 'Courier New', monospace;
+}
+
+#timecodeContainer {
+  text-align: center;
+  padding: 10px 0;
 }
 
 #courseSelector {
@@ -63,15 +73,26 @@ body {
 
 #notePanel {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   padding: 20px;
 }
 
-#notePanel input {
-  flex: 1;
+#notePanel input,
+#notePanel textarea {
+  width: 100%;
 }
 
-button, input, select {
+#codeInput {
+  height: 200px;
+  font-size: 24px;
+}
+
+#codeInput::placeholder {
+  font-size: 24px;
+}
+
+button, input, select, textarea {
   background-color: #111;
   color: var(--text);
   border: 1px solid #555;
@@ -81,13 +102,12 @@ button, input, select {
 
 button:hover, button:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 5px var(--accent);
+  border-radius: 5px;
 }
 
-input:focus, select:focus {
+input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 5px var(--accent);
 }
 
 #notesLog {
@@ -182,5 +202,9 @@ input:focus, select:focus {
 
 .modalActions button {
   margin-left: 10px;
+}
+
+.hidden {
+  display: none;
 }
 
