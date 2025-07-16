@@ -52,14 +52,19 @@ body {
   height: auto;
 }
 
-#currentDate, #timecode {
+#currentDate {
   font-size: 48px;
   font-family: 'Courier New', monospace;
 }
 
+#timecode {
+  font-size: 72px;
+  font-family: 'Courier New', monospace;
+}
+
 #timecodeContainer {
-  text-align: right;
-  padding: 10px 20px;
+  text-align: center;
+  padding: 10px 0;
 }
 
 #courseSelector {
@@ -80,6 +85,11 @@ body {
 
 #codeInput {
   height: 200px;
+  font-size: 24px;
+}
+
+#codeInput::placeholder {
+  font-size: 24px;
 }
 
 button, input, select, textarea {
@@ -92,13 +102,12 @@ button, input, select, textarea {
 
 button:hover, button:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 5px var(--accent);
+  border-radius: 9999px;
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 5px var(--accent);
 }
 
 #notesLog {
