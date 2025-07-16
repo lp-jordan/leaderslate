@@ -52,40 +52,23 @@ body {
   height: auto;
 }
 
-#currentDate {
-  font-size: 24px;
-}
-
 #timecode {
   font-size: 48px;
   font-family: 'Courier New', monospace;
-  text-align: center;
-  margin-top: 10px;
 }
 
 #courseSelector {
   margin: 20px;
 }
 
-#newCourseContainer {
-  margin-left: 10px;
-}
-
 #notePanel {
   display: flex;
-  flex-direction: column;
   gap: 20px;
   padding: 20px;
 }
 
-#notePanel textarea,
 #notePanel input {
-  width: 100%;
-}
-
-#codeInput {
-  height: 100px;
-  resize: vertical;
+  flex: 1;
 }
 
 button, input, select {
