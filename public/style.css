@@ -124,8 +124,20 @@ body {
 
 #codeInput {
   flex: 1;
+  width: 100%;
   aspect-ratio: 1 / 1;
-  font-size: 24px;
+  font-size: clamp(48px, 6vw, 96px);
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 2px solid #444;
+  border-radius: 12px;
+  resize: none;
 }
 
 #noteInput {
@@ -134,6 +146,12 @@ body {
 
 #codeInput::placeholder {
   font-size: 24px;
+}
+
+#noteInput::placeholder {
+  vertical-align: top;
+  text-align: left;
+  line-height: 1.2;
 }
 
 button, input, select, textarea {
