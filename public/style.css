@@ -230,6 +230,11 @@ input:focus, select:focus, textarea:focus {
   grid-template-columns: auto 1fr auto;
   align-items: center;
   column-gap: 0.625rem;
+  cursor: pointer;
+}
+
+.noteItem:hover:not(.selected) {
+  background-color: #222;
 }
 
 .noteText {
@@ -327,7 +332,6 @@ textarea:disabled {
   border-color: #444;
   cursor: not-allowed;
 }
-
 
 .noteItem.selected {
   background-color: #333;

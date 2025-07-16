@@ -328,6 +328,9 @@ function initSocket(url) {
   socket.on('codeUpdate', value => {
     codeInput.value = value;
   });
+  socket.on('error', message => {
+    showAlert(message);
+  });
 }
 
 function renderNotes() {
@@ -353,23 +356,16 @@ function renderNote(note, index) {
 
   const actions = document.createElement('span');
   actions.className = 'noteActions';
-  const editBtn = document.createElement('span');
-  editBtn.textContent = '✏️';
-  editBtn.style.cursor = 'pointer';
-  editBtn.addEventListener('click', () => {
-    openEditNoteModal(note, index);
-
-  });
   const delBtn = document.createElement('span');
   delBtn.textContent = '🗑️';
   delBtn.style.cursor = 'pointer';
   delBtn.style.marginLeft = '10px';
-  delBtn.addEventListener('click', () => {
+  delBtn.addEventListener('click', (ev) => {
+    ev.stopPropagation();
     showConfirm('Delete this note?', () => {
       socket.emit('deleteNote', index);
     });
   });
-  actions.appendChild(editBtn);
   actions.appendChild(delBtn);
 
   div.appendChild(ts);
@@ -383,17 +379,21 @@ function renderNote(note, index) {
   }
 
   div.addEventListener('click', (e) => {
-    if (e.shiftKey && !batchMode) {
-      enterBatchMode();
-    }
-    if (batchMode) {
-      if (selected.has(index)) {
-        selected.delete(index);
-        div.classList.remove('selected');
-      } else {
-        selected.add(index);
-        div.classList.add('selected');
-      }
-    }
+if (e.shiftKey && !batchMode) {
+  enterBatchMode();
+}
+
+if (batchMode) {
+  if (selected.has(index)) {
+    selected.delete(index);
+    div.classList.remove('selected');
+  } else {
+    selected.add(index);
+    div.classList.add('selected');
+  }
+  return;
+}
+
+openEditNoteModal(note, index);
   });
 }
