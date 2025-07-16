@@ -106,18 +106,20 @@ body {
 }
 
 #noteInputWrapper {
-  display: flex;
-  flex-direction: column;
+  position: relative;
   flex: 4;
 }
 
 #noteInputWrapper input {
   width: 100%;
+  box-sizing: border-box;
+  padding-right: 60px;
 }
 
 #noteInputWrapper button {
-  align-self: flex-end;
-  margin-top: 5px;
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
 }
 
 #codeInput {
@@ -139,18 +141,7 @@ body {
 }
 
 #noteInput {
-  flex: 4;
-  width: 100%;
-  font-size: 24px;
-  min-height: 120px;
-  padding: 20px 12px 12px 12px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background-color: #121212;
-  color: #ddd;
-  resize: none;             
-  line-height: 1.4;          
-  text-align: left;          
+  height: 100%;
 }
 
 #codeInput::placeholder {
