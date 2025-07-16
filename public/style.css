@@ -324,3 +324,17 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
+@media (max-width: 600px) {
+  #noteInputs {
+    flex-direction: column;
+  }
+
+  #codeInput {
+    font-size: 4rem;
+  }
+
+  #timecode {
+    font-size: 4rem;
+  }
+}
+
