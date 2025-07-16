@@ -80,6 +80,41 @@ body {
 
 #courseSelector {
   margin: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#courseMenuWrapper {
+  position: relative;
+}
+
+#courseMenuToggle {
+  padding: 0.5rem;
+}
+
+#courseMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #111;
+  border: 1px solid #555;
+  padding: 0.625rem;
+  border-radius: 0.3125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+#courseMenu.hidden {
+  display: none;
+}
+
+#newCourseControls {
+  display: flex;
+  gap: 0.5rem;
 }
 
 #noCourseText {
@@ -289,11 +324,25 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
+
 .noteItem.selected {
   background-color: #333;
 }
 
 #batchControls {
   margin: 1rem 0;
+
+@media (max-width: 600px) {
+  #noteInputs {
+    flex-direction: column;
+  }
+
+  #codeInput {
+    font-size: 4rem;
+  }
+
+  #timecode {
+    font-size: 4rem;
+  }
 }
 

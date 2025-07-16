@@ -25,6 +25,9 @@ const addCourseBtn = document.getElementById('addCourseBtn');
 const newCourseControls = document.getElementById('newCourseControls');
 const renameCourseBtn = document.getElementById('renameCourse');
 const deleteCourseBtn = document.getElementById('deleteCourse');
+const courseMenuToggle = document.getElementById('courseMenuToggle');
+const courseMenu = document.getElementById('courseMenu');
+const courseMenuWrapper = document.getElementById('courseMenuWrapper');
 const noCourseText = document.getElementById('noCourseText');
 const codeInput = document.getElementById('codeInput');
 const noteInput = document.getElementById('noteInput');
@@ -86,6 +89,17 @@ setNoActiveCourse();
 
 toggleDevConsole.addEventListener('click', () => {
   devConsole.classList.toggle('show');
+});
+
+courseMenuToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  courseMenu.classList.toggle('hidden');
+});
+
+document.addEventListener('click', (e) => {
+  if (!courseMenuWrapper.contains(e.target)) {
+    courseMenu.classList.add('hidden');
+  }
 });
 
 function devLog(msg) {
@@ -182,7 +196,8 @@ function refreshCourseList() {
 }
 refreshCourseList();
 
-addCourseBtn.addEventListener('click', () => {
+addCourseBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
   newCourseControls.classList.toggle('hidden');
   if (!newCourseControls.classList.contains('hidden')) {
     newCourse.focus();
@@ -203,6 +218,7 @@ createCourse.addEventListener('click', () => {
 
 renameCourseBtn.addEventListener('click', () => {
   if (!currentCourse) return;
+  courseMenu.classList.add('hidden');
   renameInput.value = currentCourse;
   showModal(renameModal);
 });
@@ -221,6 +237,7 @@ renameCancel.addEventListener('click', () => hideModal(renameModal));
 
 deleteCourseBtn.addEventListener('click', () => {
   if (!currentCourse) return;
+  courseMenu.classList.add('hidden');
   showConfirm(`Delete course ${currentCourse}?`, () => {
     fetch(`/courses/${currentCourse}`, { method: 'DELETE' })
       .then(() => {
@@ -272,6 +289,9 @@ deselectAllBtn.addEventListener('click', () => {
 
 function initSocket(url) {
   socket = io(url);
+  socket.on('error', message => {
+    showAlert(message);
+  });
   devLog(`Connecting to ${url}`);
   socket.on('log', devLog);
   socket.on('connect', () => devLog('Connected to server'));
@@ -309,10 +329,6 @@ function initSocket(url) {
     codeInput.value = value;
   });
 }
-
-socket.on('error', message => {
-  showAlert(message);
-});
 
 function renderNotes() {
   notesLog.innerHTML = '';
