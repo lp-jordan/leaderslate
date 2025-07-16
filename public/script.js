@@ -25,6 +25,9 @@ const addCourseBtn = document.getElementById('addCourseBtn');
 const newCourseControls = document.getElementById('newCourseControls');
 const renameCourseBtn = document.getElementById('renameCourse');
 const deleteCourseBtn = document.getElementById('deleteCourse');
+const courseMenuToggle = document.getElementById('courseMenuToggle');
+const courseMenu = document.getElementById('courseMenu');
+const courseMenuWrapper = document.getElementById('courseMenuWrapper');
 const noCourseText = document.getElementById('noCourseText');
 const codeInput = document.getElementById('codeInput');
 const noteInput = document.getElementById('noteInput');
@@ -86,6 +89,17 @@ setNoActiveCourse();
 
 toggleDevConsole.addEventListener('click', () => {
   devConsole.classList.toggle('show');
+});
+
+courseMenuToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  courseMenu.classList.toggle('hidden');
+});
+
+document.addEventListener('click', (e) => {
+  if (!courseMenuWrapper.contains(e.target)) {
+    courseMenu.classList.add('hidden');
+  }
 });
 
 function devLog(msg) {
@@ -187,7 +201,8 @@ function refreshCourseList() {
 }
 refreshCourseList();
 
-addCourseBtn.addEventListener('click', () => {
+addCourseBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
   newCourseControls.classList.toggle('hidden');
   if (!newCourseControls.classList.contains('hidden')) {
     newCourse.focus();
@@ -208,6 +223,7 @@ createCourse.addEventListener('click', () => {
 
 renameCourseBtn.addEventListener('click', () => {
   if (!currentCourse) return;
+  courseMenu.classList.add('hidden');
   renameInput.value = currentCourse;
   showModal(renameModal);
 });
@@ -226,6 +242,7 @@ renameCancel.addEventListener('click', () => hideModal(renameModal));
 
 deleteCourseBtn.addEventListener('click', () => {
   if (!currentCourse) return;
+  courseMenu.classList.add('hidden');
   showConfirm(`Delete course ${currentCourse}?`, () => {
     fetch(`/courses/${currentCourse}`, { method: 'DELETE' })
       .then(() => {
@@ -277,6 +294,9 @@ deselectAllBtn.addEventListener('click', () => {
 
 function initSocket(url) {
   socket = io(url);
+  socket.on('error', message => {
+    showAlert(message);
+  });
   devLog(`Connecting to ${url}`);
   socket.on('log', devLog);
   socket.on('connect', () => devLog('Connected to server'));
@@ -371,32 +391,36 @@ function renderNote(note, index) {
 
   if (batchMode) {
     actions.classList.add('hidden');
-    selectBox.classList.remove('hidden');
+if (selectBox) {
+  selectBox.classList.remove('hidden');
+}
+
+div.addEventListener('click', (e) => {
+  // Enter batch mode if Ctrl (Windows) or Cmd (Mac) is held
+  if ((e.ctrlKey || e.metaKey) && !batchMode) {
+    enterBatchMode();
   }
 
-  div.addEventListener('click', (e) => {
-    if (batchMode) {
-      toggleSelection();
-      if (selected.size === 0) exitBatchMode();
-      return;
-    }
-    if (e.ctrlKey || e.metaKey) {
-      enterBatchMode();
-      toggleSelection();
-      return;
-    }
-    openEditNoteModal(note, index);
-  });
-
-  function toggleSelection() {
-    if (selected.has(index)) {
-      selected.delete(index);
-      div.classList.remove('selected');
-      selectBox.checked = false;
-    } else {
-      selected.add(index);
-      div.classList.add('selected');
-      selectBox.checked = true;
-    }
+  // If in batch mode, toggle selection
+  if (batchMode) {
+    toggleSelection();
+    if (selected.size === 0) exitBatchMode();
+    return;
   }
+
+  // Otherwise, open the edit modal
+  openEditNoteModal(note, index);
+});
+
+function toggleSelection() {
+  if (selected.has(index)) {
+    selected.delete(index);
+    div.classList.remove('selected');
+    if (selectBox) selectBox.checked = false;
+  } else {
+    selected.add(index);
+    div.classList.add('selected');
+    if (selectBox) selectBox.checked = true;
+  }
+}
 }

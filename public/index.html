@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LeaderSlate</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -21,13 +22,18 @@
     <label for="courseSelect">Course:</label>
     <select id="courseSelect"></select>
     <span id="noCourseText" class="hidden">No Course Selected</span>
-    <button id="addCourseBtn">+</button>
-    <span id="newCourseControls" class="hidden">
-      <input id="newCourse" placeholder="New Course" />
-      <button id="createCourse">Create</button>
-    </span>
-    <button id="renameCourse">Rename</button>
-    <button id="deleteCourse">Delete</button>
+    <div id="courseMenuWrapper">
+      <button id="courseMenuToggle">&#8942;</button>
+      <div id="courseMenu" class="hidden">
+        <button id="addCourseBtn" title="Create Course">+</button>
+        <span id="newCourseControls" class="hidden">
+          <input id="newCourse" placeholder="New Course" />
+          <button id="createCourse">Create</button>
+        </span>
+        <button id="renameCourse" title="Rename Course">✏️</button>
+        <button id="deleteCourse" title="Delete Course">🗑️</button>
+      </div>
+    </div>
   </div>
 
   <div id="notePanel">
@@ -46,6 +52,11 @@
   </div>
 
   <div id="notesLog"></div>
+
+  <div id="batchControls" class="hidden">
+    <button id="deleteSelected">Delete Selected</button>
+    <button id="deselectAll">Deselect All</button>
+  </div>
 
   <div id="bottomBar">
     <button id="exportCsv">Export CSV</button>
