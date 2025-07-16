@@ -289,3 +289,11 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
+.noteItem.selected {
+  background-color: #333;
+}
+
+#batchControls {
+  margin: 1rem 0;
+}
+
