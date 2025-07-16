@@ -24,6 +24,22 @@ const ipAddress = document.getElementById('ipAddress');
 const devConsole = document.getElementById('devConsole');
 const devConsoleLog = document.getElementById('devConsoleLog');
 const toggleDevConsole = document.getElementById('toggleDevConsole');
+const renameModal = document.getElementById('renameModal');
+const renameInput = document.getElementById('renameInput');
+const renameOk = document.getElementById('renameOk');
+const renameCancel = document.getElementById('renameCancel');
+const confirmModal = document.getElementById('confirmModal');
+const confirmMessage = document.getElementById('confirmMessage');
+const confirmOk = document.getElementById('confirmOk');
+const confirmCancel = document.getElementById('confirmCancel');
+const editNoteModal = document.getElementById('editNoteModal');
+const editCodeInput = document.getElementById('editCodeInput');
+const editNoteInput = document.getElementById('editNoteInput');
+const editOk = document.getElementById('editOk');
+const editCancel = document.getElementById('editCancel');
+const alertModal = document.getElementById('alertModal');
+const alertMessage = document.getElementById('alertMessage');
+const alertOk = document.getElementById('alertOk');
 
 toggleDevConsole.addEventListener('click', () => {
   devConsole.classList.toggle('show');
@@ -35,6 +51,51 @@ function devLog(msg) {
   devConsoleLog.appendChild(line);
   devConsoleLog.scrollTop = devConsoleLog.scrollHeight;
 }
+
+function showModal(modal) {
+  modal.classList.add('show');
+}
+
+function hideModal(modal) {
+  modal.classList.remove('show');
+}
+
+function showAlert(message) {
+  alertMessage.textContent = message;
+  showModal(alertModal);
+  alertOk.onclick = () => hideModal(alertModal);
+}
+
+function showConfirm(message, onOk) {
+  confirmMessage.textContent = message;
+  showModal(confirmModal);
+  confirmOk.onclick = () => { hideModal(confirmModal); onOk(); };
+  confirmCancel.onclick = () => hideModal(confirmModal);
+}
+
+let editIndex = null;
+function openEditNoteModal(note, index) {
+  editIndex = index;
+  editCodeInput.value = note.code;
+  editNoteInput.value = note.note;
+  showModal(editNoteModal);
+}
+
+editOk.addEventListener('click', () => {
+  if (editIndex === null) return;
+  socket.emit('editNote', {
+    index: editIndex,
+    code: editCodeInput.value,
+    note: editNoteInput.value
+  });
+  hideModal(editNoteModal);
+  editIndex = null;
+});
+
+editCancel.addEventListener('click', () => {
+  hideModal(editNoteModal);
+  editIndex = null;
+});
 
 fetch('/ip')
   .then(r => r.json())
@@ -61,7 +122,13 @@ createCourse.addEventListener('click', () => {
 
 renameCourseBtn.addEventListener('click', () => {
   if (!currentCourse) return;
-  const newName = prompt('Enter new course name', currentCourse);
+  renameInput.value = currentCourse;
+  showModal(renameModal);
+});
+
+renameOk.addEventListener('click', () => {
+  const newName = renameInput.value.trim();
+  hideModal(renameModal);
   if (!newName) return;
   fetch(`/courses/${currentCourse}/rename`, {
     method: 'POST',
@@ -69,12 +136,20 @@ renameCourseBtn.addEventListener('click', () => {
     body: JSON.stringify({ name: newName })
   }).then(() => { refreshCourseList(); devLog(`Renamed course to ${newName}`); });
 });
+renameCancel.addEventListener('click', () => hideModal(renameModal));
 
 deleteCourseBtn.addEventListener('click', () => {
   if (!currentCourse) return;
-  if (!confirm(`Delete course ${currentCourse}?`)) return;
-  fetch(`/courses/${currentCourse}`, { method: 'DELETE' })
-    .then(() => { currentCourse = null; notesArr = []; renderNotes(); refreshCourseList(); devLog('Course deleted'); });
+  showConfirm(`Delete course ${currentCourse}?`, () => {
+    fetch(`/courses/${currentCourse}`, { method: 'DELETE' })
+      .then(() => {
+        currentCourse = null;
+        notesArr = [];
+        renderNotes();
+        refreshCourseList();
+        devLog('Course deleted');
+      });
+  });
 });
 
 courseSelect.addEventListener('change', () => {
@@ -138,7 +213,7 @@ function initSocket(url) {
 }
 
 socket.on('error', message => {
-  alert(message);
+  showAlert(message);
 });
 
 function renderNotes() {
@@ -164,20 +239,17 @@ function renderNote(note, index) {
   editBtn.textContent = '✏️';
   editBtn.style.cursor = 'pointer';
   editBtn.addEventListener('click', () => {
-    const newCode = prompt('Edit code', note.code);
-    if (newCode === null) return;
-    const newNote = prompt('Edit note', note.note);
-    if (newNote === null) return;
-    socket.emit('editNote', { index, code: newCode, note: newNote });
+    openEditNoteModal(note, index);
+
   });
   const delBtn = document.createElement('span');
   delBtn.textContent = '🗑️';
   delBtn.style.cursor = 'pointer';
   delBtn.style.marginLeft = '10px';
   delBtn.addEventListener('click', () => {
-    if (confirm('Delete this note?')) {
+    showConfirm('Delete this note?', () => {
       socket.emit('deleteNote', index);
-    }
+    });
   });
   actions.appendChild(editBtn);
   actions.appendChild(delBtn);
