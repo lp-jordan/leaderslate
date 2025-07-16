@@ -65,9 +65,8 @@ body {
 }
 
 #timecode {
-  font-size: 72px;
-  font-family: 'Metropolis', Arial, sans-serif;
-  font-weight: bold;
+  font-size: 96px;
+  font-family: Arial, sans-serif;
 }
 
 #timecodeContainer {
