@@ -241,6 +241,9 @@ exportCsv.addEventListener('click', () => {
 
 function initSocket(url) {
   socket = io(url);
+  socket.on('error', message => {
+    showAlert(message);
+  });
   devLog(`Connecting to ${url}`);
   socket.on('log', devLog);
   socket.on('connect', () => devLog('Connected to server'));
@@ -273,10 +276,6 @@ function initSocket(url) {
     codeInput.value = value;
   });
 }
-
-socket.on('error', message => {
-  showAlert(message);
-});
 
 function renderNotes() {
   notesLog.innerHTML = '';
