@@ -323,14 +323,3 @@ function renderNote(note, index) {
   notesLog.appendChild(div);
   notesLog.scrollTop = notesLog.scrollHeight;
 }
-
-// Scale the app based on window size with a minimum scale
-function updateScale() {
-  const baseWidth = 1200; // should match .app-container width in CSS
-  const minScale = 0.5; // don't scale below half size
-  const scale = Math.max(minScale, Math.min(1, window.innerWidth / baseWidth));
-  document.documentElement.style.setProperty('--scale', scale);
-}
-
-window.addEventListener('resize', updateScale);
-updateScale();
