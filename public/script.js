@@ -25,6 +25,7 @@ const addCourseBtn = document.getElementById('addCourseBtn');
 const newCourseControls = document.getElementById('newCourseControls');
 const renameCourseBtn = document.getElementById('renameCourse');
 const deleteCourseBtn = document.getElementById('deleteCourse');
+const noCourseText = document.getElementById('noCourseText');
 const codeInput = document.getElementById('codeInput');
 const noteInput = document.getElementById('noteInput');
 const addNoteBtn = document.getElementById('addNote');
@@ -58,6 +59,8 @@ function setNoActiveCourse() {
   codeInput.disabled = true;
   noteInput.disabled = true;
   addNoteBtn.disabled = true;
+  renameCourseBtn.disabled = true;
+  deleteCourseBtn.disabled = true;
 }
 
 function setActiveCourse(course, notes) {
@@ -69,6 +72,8 @@ function setActiveCourse(course, notes) {
   codeInput.disabled = false;
   noteInput.disabled = false;
   addNoteBtn.disabled = false;
+  renameCourseBtn.disabled = false;
+  deleteCourseBtn.disabled = false;
 }
 
 setNoActiveCourse();
@@ -140,6 +145,13 @@ fetch('/ip')
 function refreshCourseList() {
   fetch('/courses').then(r => r.json()).then(data => {
     courseSelect.innerHTML = data.courses.map(c => `<option value="${c}">${c}</option>`).join('');
+    if (data.courses.length === 0) {
+      courseSelect.classList.add('hidden');
+      noCourseText.classList.remove('hidden');
+    } else {
+      courseSelect.classList.remove('hidden');
+      noCourseText.classList.add('hidden');
+    }
     if (data.current) {
       courseSelect.value = data.current;
     } else {
