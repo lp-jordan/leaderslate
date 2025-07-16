@@ -237,6 +237,14 @@ input:focus, select:focus, textarea:focus {
   background-color: #222;
 }
 
+selectBox {
+  margin-left: 0.5rem;
+}
+
+.selectBox.hidden {
+  display: none;
+}
+
 .noteText {
   text-align: left;
 }
@@ -338,7 +346,7 @@ textarea:disabled {
 }
 
 #batchControls {
-  margin: 1rem 0;
+  margin: 1rem 1.25rem;
 
 @media (max-width: 600px) {
   #noteInputs {
