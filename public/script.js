@@ -51,6 +51,12 @@ const editCancel = document.getElementById('editCancel');
 const alertModal = document.getElementById('alertModal');
 const alertMessage = document.getElementById('alertMessage');
 const alertOk = document.getElementById('alertOk');
+const batchControls = document.getElementById('batchControls');
+const deleteSelectedBtn = document.getElementById('deleteSelected');
+const deselectAllBtn = document.getElementById('deselectAll');
+
+let batchMode = false;
+const selected = new Set();
 
 function setNoActiveCourse() {
   currentCourse = null;
@@ -108,6 +114,20 @@ function showConfirm(message, onOk) {
   showModal(confirmModal);
   confirmOk.onclick = () => { hideModal(confirmModal); onOk(); };
   confirmCancel.onclick = () => hideModal(confirmModal);
+}
+
+function exitBatchMode() {
+  batchMode = false;
+  selected.clear();
+  batchControls.classList.add('hidden');
+  document.querySelectorAll('.noteActions').forEach(a => a.classList.remove('hidden'));
+  document.querySelectorAll('.noteItem').forEach(n => n.classList.remove('selected'));
+}
+
+function enterBatchMode() {
+  batchMode = true;
+  batchControls.classList.remove('hidden');
+  document.querySelectorAll('.noteActions').forEach(a => a.classList.add('hidden'));
 }
 
 let editIndex = null;
@@ -239,6 +259,17 @@ exportCsv.addEventListener('click', () => {
   devLog(`Export CSV for ${currentCourse}`);
 });
 
+deleteSelectedBtn.addEventListener('click', () => {
+  if (selected.size === 0) return;
+  const indices = Array.from(selected).sort((a,b) => a - b);
+  socket.emit('deleteNotes', indices);
+  exitBatchMode();
+});
+
+deselectAllBtn.addEventListener('click', () => {
+  exitBatchMode();
+});
+
 function initSocket(url) {
   socket = io(url);
   devLog(`Connecting to ${url}`);
@@ -269,14 +300,18 @@ function initSocket(url) {
     renderNotes();
     devLog('Note deleted');
   });
+  socket.on('notesDeleted', indices => {
+    indices.sort((a,b) => b - a).forEach(i => notesArr.splice(i,1));
+    renderNotes();
+    devLog('Notes deleted');
+  });
   socket.on('codeUpdate', value => {
     codeInput.value = value;
   });
+  socket.on('error', message => {
+    showAlert(message);
+  });
 }
-
-socket.on('error', message => {
-  showAlert(message);
-});
 
 function renderNotes() {
   notesLog.innerHTML = '';
@@ -287,6 +322,9 @@ function renderNote(note, index) {
   const div = document.createElement('div');
   div.className = 'noteItem';
   div.dataset.index = index;
+  if (selected.has(index)) {
+    div.classList.add('selected');
+  }
 
   const ts = document.createElement('span');
   ts.className = 'timestamp';
@@ -298,23 +336,16 @@ function renderNote(note, index) {
 
   const actions = document.createElement('span');
   actions.className = 'noteActions';
-  const editBtn = document.createElement('span');
-  editBtn.textContent = '✏️';
-  editBtn.style.cursor = 'pointer';
-  editBtn.addEventListener('click', () => {
-    openEditNoteModal(note, index);
-
-  });
   const delBtn = document.createElement('span');
   delBtn.textContent = '🗑️';
   delBtn.style.cursor = 'pointer';
   delBtn.style.marginLeft = '10px';
-  delBtn.addEventListener('click', () => {
+  delBtn.addEventListener('click', (ev) => {
+    ev.stopPropagation();
     showConfirm('Delete this note?', () => {
       socket.emit('deleteNote', index);
     });
   });
-  actions.appendChild(editBtn);
   actions.appendChild(delBtn);
 
   div.appendChild(ts);
@@ -322,4 +353,28 @@ function renderNote(note, index) {
   div.appendChild(actions);
   notesLog.appendChild(div);
   notesLog.scrollTop = notesLog.scrollHeight;
+
+  if (batchMode) {
+    actions.classList.add('hidden');
+  }
+
+  div.addEventListener('click', (e) => {
+    if (batchMode) {
+      if (selected.has(index)) {
+        selected.delete(index);
+        div.classList.remove('selected');
+      } else {
+        selected.add(index);
+        div.classList.add('selected');
+      }
+      return;
+    }
+    if (e.shiftKey) {
+      enterBatchMode();
+      selected.add(index);
+      div.classList.add('selected');
+      return;
+    }
+    openEditNoteModal(note, index);
+  });
 }

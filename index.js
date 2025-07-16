@@ -189,6 +189,25 @@ io.on('connection', (socket) => {
     log(`Deleted note ${index} from ${currentCourse}`);
   });
 
+  socket.on('deleteNotes', indices => {
+    if (!Array.isArray(indices)) return;
+    const unique = [...new Set(indices.filter(i => typeof i === 'number' && notes[i]))]
+      .sort((a, b) => b - a);
+    if (unique.length === 0) return;
+    const removed = [];
+    for (const idx of unique) {
+      if (notes[idx]) {
+        notes.splice(idx, 1);
+        removed.push(idx);
+      }
+    }
+    if (removed.length > 0) {
+      saveNotes();
+      io.emit('notesDeleted', removed);
+      log(`Deleted notes ${removed.join(',')} from ${currentCourse}`);
+    }
+  });
+
   socket.on('loadCourse', course => {
     if (fs.existsSync(path.join(COURSES_DIR, course))) {
       loadCourse(course);
