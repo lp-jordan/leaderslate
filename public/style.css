@@ -171,8 +171,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: #1a1a1a;
   color: #ffffff;
   border: 0.125rem solid #444;
   border-radius: 0.75rem;
@@ -185,6 +183,7 @@ body {
 
 #codeInput::placeholder {
   font-size: 1.5rem;
+  padding: 3rem 2rem;
 }
 
 #noteInput::placeholder {
