@@ -106,19 +106,18 @@ body {
 }
 
 #noteInputWrapper {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 4;
 }
 
 #noteInputWrapper input {
   width: 100%;
-  padding-right: 80px;
 }
 
-#addNote {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
+#noteInputWrapper button {
+  align-self: flex-end;
+  margin-top: 5px;
 }
 
 #codeInput {
