@@ -10,6 +10,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Metropolis';
+  src: url('fonts/Metropolis-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
 
 body {
   background-color: var(--background);
@@ -54,12 +60,13 @@ body {
 
 #currentDate {
   font-size: 48px;
-  font-family: 'Courier New', monospace;
+  font-family: 'Metropolis', Arial, sans-serif;
+  font-weight: bold;
 }
 
 #timecode {
-  font-size: 72px;
-  font-family: 'Courier New', monospace;
+  font-size: 96px;
+  font-family: Arial, sans-serif;
 }
 
 #timecodeContainer {
