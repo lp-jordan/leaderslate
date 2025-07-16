@@ -136,7 +136,6 @@ renameOk.addEventListener('click', () => {
     body: JSON.stringify({ name: newName })
   }).then(() => { refreshCourseList(); devLog(`Renamed course to ${newName}`); });
 });
-
 renameCancel.addEventListener('click', () => hideModal(renameModal));
 
 deleteCourseBtn.addEventListener('click', () => {
@@ -241,6 +240,7 @@ function renderNote(note, index) {
   editBtn.style.cursor = 'pointer';
   editBtn.addEventListener('click', () => {
     openEditNoteModal(note, index);
+
   });
   const delBtn = document.createElement('span');
   delBtn.textContent = '🗑️';
