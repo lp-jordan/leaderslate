@@ -264,15 +264,23 @@ codeInput.addEventListener('input', () => {
   }
 });
 
-addNoteBtn.addEventListener('click', () => {
+function sendNote() {
   if (!currentCourse) return;
   socket.emit('addNote', {
     code: codeInput.value,
     note: noteInput.value
   });
-  codeInput.value = '';
   noteInput.value = '';
   devLog('Sent addNote');
+}
+
+addNoteBtn.addEventListener('click', sendNote);
+
+noteInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendNote();
+  }
 });
 
 exportCsv.addEventListener('click', () => {
