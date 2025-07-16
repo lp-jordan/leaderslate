@@ -136,12 +136,17 @@ function exitBatchMode() {
   batchControls.classList.add('hidden');
   document.querySelectorAll('.noteActions').forEach(a => a.classList.remove('hidden'));
   document.querySelectorAll('.noteItem').forEach(n => n.classList.remove('selected'));
+    document.querySelectorAll('.selectBox').forEach(cb => {
+    cb.classList.add('hidden');
+    cb.checked = false;
+  });
 }
 
 function enterBatchMode() {
   batchMode = true;
   batchControls.classList.remove('hidden');
   document.querySelectorAll('.noteActions').forEach(a => a.classList.add('hidden'));
+  document.querySelectorAll('.selectBox').forEach(cb => cb.classList.remove('hidden'));
 }
 
 let editIndex = null;
@@ -368,6 +373,16 @@ function renderNote(note, index) {
   });
   actions.appendChild(delBtn);
 
+  const selectBox = document.createElement('input');
+  selectBox.type = 'checkbox';
+  selectBox.className = 'selectBox hidden';
+  if (selected.has(index)) selectBox.checked = true;
+  selectBox.addEventListener('click', e => {
+    e.stopPropagation();
+    toggleSelection();
+  });
+
+  div.appendChild(selectBox);
   div.appendChild(ts);
   div.appendChild(text);
   div.appendChild(actions);
