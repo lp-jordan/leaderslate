@@ -47,6 +47,7 @@ if (!fs.existsSync(COURSES_DIR)) {
 
 let currentCourse = null;
 let notes = [];
+let currentCodeText = '';
 
 function loadCourse(course) {
   const file = path.join(COURSES_DIR, course, 'notes.json');
@@ -117,6 +118,9 @@ io.on('connection', (socket) => {
     socket.emit('courseLoaded', { course: currentCourse, notes });
     log(`Sent courseLoaded to ${socket.id} for ${currentCourse}`);
   }
+  if (currentCodeText) {
+    socket.emit('codeUpdate', currentCodeText);
+  }
 
   socket.on('addNote', data => {
     if (!currentCourse) {
@@ -142,6 +146,12 @@ io.on('connection', (socket) => {
       socket.broadcast.emit('courseLoaded', { course, notes });
       log(`Socket ${socket.id} switched to course ${course}`);
     }
+  });
+
+  socket.on('codeUpdate', value => {
+    currentCodeText = value;
+    socket.broadcast.emit('codeUpdate', value);
+    log('codeUpdate', value);
   });
 
   socket.on('disconnect', () => {

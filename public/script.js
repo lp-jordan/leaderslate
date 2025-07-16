@@ -61,6 +61,12 @@ courseSelect.addEventListener('change', () => {
   fetch(`/courses/${course}/select`, { method: 'POST' }).then(() => { devLog(`Selected course ${course}`); });
 });
 
+codeInput.addEventListener('input', () => {
+  if (socket) {
+    socket.emit('codeUpdate', codeInput.value);
+  }
+});
+
 addNoteBtn.addEventListener('click', () => {
   if (!currentCourse) return;
   socket.emit('addNote', {
@@ -93,6 +99,9 @@ function initSocket(url) {
   socket.on('noteAdded', note => {
     renderNote(note);
     devLog('Note added');
+  });
+  socket.on('codeUpdate', value => {
+    codeInput.value = value;
   });
 }
 

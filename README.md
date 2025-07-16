@@ -6,6 +6,7 @@ A simple production note logging app with realtime sync.
 - Displays a timecode based on the system time.
 - Input fields for `Code` and `Production Notes`.
 - Notes are stored by course (project) and synced in realtime across clients.
+- The `Code` field syncs live across connected clients.
 - Export notes to CSV.
 
 ## Usage
