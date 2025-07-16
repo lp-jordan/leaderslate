@@ -51,6 +51,28 @@ const alertModal = document.getElementById('alertModal');
 const alertMessage = document.getElementById('alertMessage');
 const alertOk = document.getElementById('alertOk');
 
+function setNoActiveCourse() {
+  currentCourse = null;
+  notesArr = [];
+  renderNotes();
+  codeInput.disabled = true;
+  noteInput.disabled = true;
+  addNoteBtn.disabled = true;
+}
+
+function setActiveCourse(course, notes) {
+  currentCourse = course;
+  if (Array.isArray(notes)) {
+    notesArr = notes;
+    renderNotes();
+  }
+  codeInput.disabled = false;
+  noteInput.disabled = false;
+  addNoteBtn.disabled = false;
+}
+
+setNoActiveCourse();
+
 toggleDevConsole.addEventListener('click', () => {
   devConsole.classList.toggle('show');
 });
@@ -118,7 +140,12 @@ fetch('/ip')
 function refreshCourseList() {
   fetch('/courses').then(r => r.json()).then(data => {
     courseSelect.innerHTML = data.courses.map(c => `<option value="${c}">${c}</option>`).join('');
-    if (data.current) courseSelect.value = data.current;
+    if (data.current) {
+      courseSelect.value = data.current;
+    } else {
+      courseSelect.value = '';
+      setNoActiveCourse();
+    }
   });
 }
 refreshCourseList();
@@ -165,9 +192,7 @@ deleteCourseBtn.addEventListener('click', () => {
   showConfirm(`Delete course ${currentCourse}?`, () => {
     fetch(`/courses/${currentCourse}`, { method: 'DELETE' })
       .then(() => {
-        currentCourse = null;
-        notesArr = [];
-        renderNotes();
+        setNoActiveCourse();
         refreshCourseList();
         devLog('Course deleted');
       });
@@ -208,11 +233,14 @@ function initSocket(url) {
   socket.on('log', devLog);
   socket.on('connect', () => devLog('Connected to server'));
   socket.on('courseLoaded', data => {
-    currentCourse = data.course;
-    notesArr = data.notes;
-    renderNotes();
+    setActiveCourse(data.course, data.notes);
     refreshCourseList();
     devLog(`Course loaded ${data.course}`);
+  });
+  socket.on('noActiveCourse', () => {
+    setNoActiveCourse();
+    refreshCourseList();
+    devLog('No active course');
   });
   socket.on('noteAdded', note => {
     notesArr.push(note);
