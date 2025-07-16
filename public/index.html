@@ -18,6 +18,8 @@
     <select id="courseSelect"></select>
     <input id="newCourse" placeholder="New Course" />
     <button id="createCourse">Create</button>
+    <button id="renameCourse">Rename</button>
+    <button id="deleteCourse">Delete</button>
   </div>
 
   <div id="notePanel">
@@ -35,6 +37,48 @@
 
   <button id="toggleDevConsole">Dev Console</button>
   <div id="devConsole"><div id="devConsoleLog"></div></div>
+
+  <div id="renameModal" class="modalOverlay">
+    <div class="modal">
+      <h3>Rename Course</h3>
+      <input id="renameInput" />
+      <div class="modalActions">
+        <button id="renameCancel">Cancel</button>
+        <button id="renameOk">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmModal" class="modalOverlay">
+    <div class="modal">
+      <div id="confirmMessage"></div>
+      <div class="modalActions">
+        <button id="confirmCancel">Cancel</button>
+        <button id="confirmOk">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="editNoteModal" class="modalOverlay">
+    <div class="modal">
+      <h3>Edit Note</h3>
+      <input id="editCodeInput" />
+      <input id="editNoteInput" />
+      <div class="modalActions">
+        <button id="editCancel">Cancel</button>
+        <button id="editOk">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="alertModal" class="modalOverlay">
+    <div class="modal">
+      <div id="alertMessage"></div>
+      <div class="modalActions">
+        <button id="alertOk">OK</button>
+      </div>
+    </div>
+  </div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
