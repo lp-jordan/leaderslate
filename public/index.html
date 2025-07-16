@@ -10,20 +10,27 @@
   <div id="topBar">
     <div id="logo">
   <img src="/logos/leaderpass-studios-logo-white_small.png" alt="LeaderPass Studios Logo"></div>
+    <div id="currentDate"></div>
+  </div>
+
+  <div id="timecodeContainer">
     <div id="timecode">00:00:00:00</div>
   </div>
 
   <div id="courseSelector">
     <label for="courseSelect">Course:</label>
     <select id="courseSelect"></select>
-    <input id="newCourse" placeholder="New Course" />
-    <button id="createCourse">Create</button>
+    <button id="addCourseBtn">+</button>
+    <span id="newCourseControls" class="hidden">
+      <input id="newCourse" placeholder="New Course" />
+      <button id="createCourse">Create</button>
+    </span>
     <button id="renameCourse">Rename</button>
     <button id="deleteCourse">Delete</button>
   </div>
 
   <div id="notePanel">
-    <input id="codeInput" placeholder="Code" />
+    <textarea id="codeInput" placeholder="Code"></textarea>
     <input id="noteInput" placeholder="Production Notes" />
     <button id="addNote">Add Note</button>
   </div>
