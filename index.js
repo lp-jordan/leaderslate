@@ -40,7 +40,11 @@ app.get('/ip', (req, res) => {
   res.json({ ip: getHostIp() });
 });
 
-const COURSES_DIR = path.join(__dirname, 'courses');
+// The courses directory stores user generated files. When packaged with `pkg`,
+// `__dirname` is read-only so we need a writable location. Default to a
+// "courses" folder next to the executable (process.cwd()), but allow overriding
+// via the COURSES_DIR environment variable.
+const COURSES_DIR = process.env.COURSES_DIR || path.join(process.cwd(), 'courses');
 if (!fs.existsSync(COURSES_DIR)) {
   fs.mkdirSync(COURSES_DIR);
 }
