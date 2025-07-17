@@ -33,6 +33,7 @@ const codeInput = document.getElementById('codeInput');
 const noteInput = document.getElementById('noteInput');
 const addNoteBtn = document.getElementById('addNote');
 const notesLog = document.getElementById('notesLog');
+const toggleNotesLog = document.getElementById('toggleNotesLog');
 const exportCsv = document.getElementById('exportCsv');
 const ipAddress = document.getElementById('ipAddress');
 const devConsole = document.getElementById('devConsole');
@@ -89,6 +90,11 @@ setNoActiveCourse();
 
 toggleDevConsole.addEventListener('click', () => {
   devConsole.classList.toggle('show');
+});
+
+toggleNotesLog.addEventListener('click', () => {
+  notesLog.classList.toggle('hidden');
+  toggleNotesLog.textContent = notesLog.classList.contains('hidden') ? 'Show Log' : 'Hide Log';
 });
 
 courseMenuToggle.addEventListener('click', (e) => {

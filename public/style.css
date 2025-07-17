@@ -215,6 +215,10 @@ input:focus, select:focus, textarea:focus {
   border-color: var(--accent);
 }
 
+#toggleNotesLog {
+  margin: 0 1.25rem 0.5rem;
+}
+
 #notesLog {
   max-height: 18.75rem;
   overflow-y: auto;
