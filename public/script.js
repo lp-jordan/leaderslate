@@ -199,6 +199,9 @@ function refreshCourseList() {
     }
     if (data.current) {
       courseSelect.value = data.current;
+      if (socket && socket.connected && currentCourse !== data.current) {
+        socket.emit('loadCourse', data.current);
+      }
     } else {
       courseSelect.value = '';
       setNoActiveCourse();
@@ -313,7 +316,10 @@ function initSocket(url) {
   });
   devLog(`Connecting to ${url}`);
   socket.on('log', devLog);
-  socket.on('connect', () => devLog('Connected to server'));
+  socket.on('connect', () => {
+    devLog('Connected to server');
+    refreshCourseList();
+  });
   socket.on('courseLoaded', data => {
     setActiveCourse(data.course, data.notes);
     refreshCourseList();
