@@ -22,14 +22,16 @@
     <label for="courseSelect">Course:</label>
     <select id="courseSelect"></select>
     <span id="noCourseText" class="hidden">No Course Selected</span>
+    <div id="addCourseWrapper">
+      <button id="addCourseBtn" title="Create Course">+</button>
+      <div id="newCourseControls" class="hidden">
+        <input id="newCourse" placeholder="New Course" />
+        <button id="createCourse">Create</button>
+      </div>
+    </div>
     <div id="courseMenuWrapper">
       <button id="courseMenuToggle">&#8942;</button>
       <div id="courseMenu" class="hidden">
-        <button id="addCourseBtn" title="Create Course">+</button>
-        <span id="newCourseControls" class="hidden">
-          <input id="newCourse" placeholder="New Course" />
-          <button id="createCourse">Create</button>
-        </span>
         <button id="renameCourse" title="Rename Course">✏️</button>
         <button id="deleteCourse" title="Delete Course">🗑️</button>
       </div>

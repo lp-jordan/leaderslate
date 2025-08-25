@@ -86,6 +86,10 @@ body {
   gap: 0.5rem;
 }
 
+#addCourseWrapper {
+  position: relative;
+}
+
 #courseMenuWrapper {
   position: relative;
 }
@@ -113,8 +117,20 @@ body {
 }
 
 #newCourseControls {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #111;
+  border: 1px solid #555;
+  padding: 0.625rem;
+  border-radius: 0.3125rem;
   display: flex;
   gap: 0.5rem;
+  z-index: 1000;
+}
+
+#newCourseControls.hidden {
+  display: none;
 }
 
 #noCourseText {

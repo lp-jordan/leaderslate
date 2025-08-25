@@ -23,6 +23,7 @@ const newCourse = document.getElementById('newCourse');
 const createCourse = document.getElementById('createCourse');
 const addCourseBtn = document.getElementById('addCourseBtn');
 const newCourseControls = document.getElementById('newCourseControls');
+const addCourseWrapper = document.getElementById('addCourseWrapper');
 const renameCourseBtn = document.getElementById('renameCourse');
 const deleteCourseBtn = document.getElementById('deleteCourse');
 const courseMenuToggle = document.getElementById('courseMenuToggle');
@@ -99,12 +100,16 @@ toggleNotesLog.addEventListener('click', () => {
 
 courseMenuToggle.addEventListener('click', (e) => {
   e.stopPropagation();
+  newCourseControls.classList.add('hidden');
   courseMenu.classList.toggle('hidden');
 });
 
 document.addEventListener('click', (e) => {
   if (!courseMenuWrapper.contains(e.target)) {
     courseMenu.classList.add('hidden');
+  }
+  if (!addCourseWrapper.contains(e.target)) {
+    newCourseControls.classList.add('hidden');
   }
 });
 
@@ -212,6 +217,7 @@ refreshCourseList();
 
 addCourseBtn.addEventListener('click', (e) => {
   e.stopPropagation();
+  courseMenu.classList.add('hidden');
   newCourseControls.classList.toggle('hidden');
   if (!newCourseControls.classList.contains('hidden')) {
     newCourse.focus();
