@@ -169,14 +169,12 @@ body {
   font-size: clamp(3rem, 6vw, 6rem);
   font-weight: bold;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   color: #ffffff;
   border: 0.125rem solid #444;
   border-radius: 0.75rem;
-  resize: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #noteInput {
@@ -185,7 +183,6 @@ body {
 }
 
 #codeInput::placeholder {
-  padding: 3.5rem 2rem;
   font-size: 1.5rem;
 }
 
@@ -351,6 +348,7 @@ textarea:disabled {
 
 #batchControls {
   margin: 1rem 1.25rem;
+}
 
 @media (max-width: 600px) {
   #noteInputs {
@@ -364,5 +362,4 @@ textarea:disabled {
   #timecode {
     font-size: 4rem;
   }
-}
 }
