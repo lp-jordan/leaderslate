@@ -366,6 +366,29 @@ textarea:disabled {
   margin: 1rem 1.25rem;
 }
 
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10000;
+}
+
+.toast {
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border-radius: 0.3125rem;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (max-width: 600px) {
   #noteInputs {
     flex-direction: column;

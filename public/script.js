@@ -59,6 +59,7 @@ const alertOk = document.getElementById('alertOk');
 const batchControls = document.getElementById('batchControls');
 const deleteSelectedBtn = document.getElementById('deleteSelected');
 const deselectAllBtn = document.getElementById('deselectAll');
+const toastContainer = document.getElementById('toastContainer');
 
 let batchMode = false;
 const selected = new Set();
@@ -139,6 +140,18 @@ function showConfirm(message, onOk) {
   showModal(confirmModal);
   confirmOk.onclick = () => { hideModal(confirmModal); onOk(); };
   confirmCancel.onclick = () => hideModal(confirmModal);
+}
+
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+  toastContainer.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, 3000);
 }
 
 function exitBatchMode() {
@@ -330,11 +343,13 @@ function initSocket(url) {
     setActiveCourse(data.course, data.notes);
     refreshCourseList();
     devLog(`Course loaded ${data.course}`);
+    showToast(`Loaded course ${data.course}`);
   });
   socket.on('noActiveCourse', () => {
     setNoActiveCourse();
     refreshCourseList();
     devLog('No active course');
+    showToast('No active course');
   });
   socket.on('noteAdded', note => {
     notesArr.push(note);
@@ -345,16 +360,24 @@ function initSocket(url) {
     notesArr[data.index] = data.note;
     renderNotes();
     devLog('Note edited');
+    showToast('Note edited');
   });
   socket.on('noteDeleted', index => {
     notesArr.splice(index, 1);
     renderNotes();
     devLog('Note deleted');
+    showToast('Note deleted');
   });
   socket.on('notesDeleted', indices => {
     indices.sort((a,b) => b - a).forEach(i => notesArr.splice(i,1));
     renderNotes();
     devLog('Notes deleted');
+    showToast('Notes deleted');
+  });
+  socket.on('courseDeleted', course => {
+    refreshCourseList();
+    devLog(`Course deleted ${course}`);
+    showToast(`Deleted course ${course}`);
   });
   socket.on('codeUpdate', value => {
     codeInput.value = value;
