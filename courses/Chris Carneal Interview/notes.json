@@ -28,5 +28,15 @@
     "timestamp": "16:18:54:16",
     "code": "ATEM",
     "note": "Recording stopped (Chris_Carneal_Interview_20260316_161353)"
+  },
+  {
+    "timestamp": "20:31:27:18",
+    "code": "ATEM",
+    "note": "Recording started (Chris_Carneal_Interview_20260316_161353)"
+  },
+  {
+    "timestamp": "20:31:35:05",
+    "code": "ATEM",
+    "note": "Recording stopped (Chris_Carneal_Interview_20260316_161353)"
   }
 ]

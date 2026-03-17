@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "09:44:50:13",
+    "code": "ATEM",
+    "note": "Recording started (Test_03-17-26)"
+  },
+  {
+    "timestamp": "09:44:53:07",
+    "code": "ATEM",
+    "note": "Recording stopped (Test_03-17-26)"
+  }
+]

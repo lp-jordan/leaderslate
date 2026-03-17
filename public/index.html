@@ -64,6 +64,22 @@
       </div>
     </div>
 
+    <div id="mobileQuickBar" class="mobile-quick-bar hidden" aria-hidden="true">
+      <div class="mobile-quick-bar-status">
+        <span id="mobileQuickConnection" class="mobile-quick-connection">ATEM disconnected</span>
+        <span id="mobileQuickRecording" class="mobile-quick-recording">REC Off</span>
+      </div>
+      <div class="mobile-quick-bar-actions">
+        <button id="mobileQuickRecordBtn" type="button" class="mobile-quick-record-btn">REC</button>
+        <button id="mobileQuickOutputBtn" type="button" class="mobile-quick-output-btn">Multiview</button>
+      </div>
+    </div>
+
+    <div class="mobile-mode-toggle" role="tablist" aria-label="Mobile view mode">
+      <button id="mobileModeAtem" type="button" class="mobile-mode-btn is-active" data-mobile-view="atem" role="tab" aria-selected="true">ATEM</button>
+      <button id="mobileModeNotes" type="button" class="mobile-mode-btn" data-mobile-view="notes" role="tab" aria-selected="false">Notes</button>
+    </div>
+
     <div class="app-section app-notes-section">
       <div id="notePanel">
         <div id="noteInputs">
@@ -134,11 +150,6 @@
 
         <div id="atemStatusText" class="atem-panel-status-line">Waiting for bridge...</div>
       </div>
-    </div>
-
-    <div id="bottomBar">
-      <button id="exportCsv">Export CSV</button>
-      <div class="ipDisplay">IP: <span id="ipAddress">...</span></div>
     </div>
 
     <button id="toggleDevConsole">Dev Console</button>

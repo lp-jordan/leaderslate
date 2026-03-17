@@ -21,7 +21,7 @@ async function main() {
 
   await run('generateRecordingBaseName uses course plus local timestamp', async () => {
     const date = new Date('2026-03-16T14:05:09');
-    assert.equal(generateRecordingBaseName('Launch Weekend', date), 'Launch_Weekend_20260316_140509');
+    assert.equal(generateRecordingBaseName('Launch Weekend', date), 'Launch_Weekend_03-16-26');
   });
 
   await run('createAtemNote creates ATEM-tagged note entries', async () => {

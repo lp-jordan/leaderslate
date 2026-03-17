@@ -124,13 +124,22 @@ textarea {
 }
 
 .app-hero-section {
+  position: relative;
+  z-index: 4;
   margin-bottom: var(--space-lg);
   padding: 20px;
   background: linear-gradient(180deg, rgba(20, 28, 39, 0.78), rgba(12, 18, 27, 0.58));
 }
 
 .app-notes-section {
+  position: relative;
+  z-index: 1;
   margin-bottom: var(--space-xl);
+}
+
+.mobile-quick-bar,
+.mobile-mode-toggle {
+  display: none;
 }
 
 .app-atem-section {
@@ -177,10 +186,12 @@ textarea {
 
 #timecode {
   color: var(--accent-strong);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Courier New", Consolas, monospace;
   font-size: clamp(4rem, 8vw, 8rem);
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
   text-shadow: 0 0 24px rgba(215, 170, 99, 0.14);
 }
 
@@ -548,9 +559,9 @@ textarea {
   height: 100%;
   border-radius: 12px;
   padding: 10px 8px;
-  font-size: 0.76rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
   text-align: center;
   white-space: normal;
   background: linear-gradient(180deg, rgba(44, 56, 70, 0.98), rgba(24, 32, 42, 0.98));
@@ -712,8 +723,7 @@ button:focus-visible {
   outline: none;
 }
 
-#addNote,
-#exportCsv {
+#addNote {
   background: linear-gradient(180deg, var(--accent-strong), var(--accent));
   color: #14110d;
   font-weight: 700;
@@ -814,20 +824,6 @@ button:focus-visible {
   padding: 0 0 2px;
   display: flex;
   gap: 12px;
-}
-
-#bottomBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 18px;
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(22, 30, 39, 0.72), rgba(15, 21, 29, 0.66));
-  backdrop-filter: blur(12px);
-}
-
-.ipDisplay {
-  color: var(--text-secondary);
 }
 
 #toggleDevConsole {
@@ -946,7 +942,13 @@ textarea:disabled {
 }
 
 @media (max-width: 700px) {
+  body {
+    overflow-x: hidden;
+  }
+
   .app-container {
+    display: flex;
+    flex-direction: column;
     padding: 18px 16px 16px;
   }
 
@@ -954,8 +956,119 @@ textarea:disabled {
     inset: 8px;
   }
 
+  .app-atem-section {
+    order: 1;
+  }
+
+  .mobile-quick-bar {
+    position: sticky;
+    top: 10px;
+    z-index: 12;
+    order: 2;
+    margin-bottom: var(--space-md);
+    padding: 12px 14px;
+    display: grid;
+    gap: 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(184, 110, 102, 0.28);
+    background: linear-gradient(180deg, rgba(29, 20, 22, 0.95), rgba(18, 15, 18, 0.94));
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.26);
+    backdrop-filter: blur(16px);
+  }
+
+  .mobile-quick-bar.visible {
+    display: grid;
+  }
+
+  .mobile-quick-bar-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .mobile-quick-connection,
+  .mobile-quick-recording {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mobile-quick-connection {
+    color: var(--text-secondary);
+  }
+
+  .mobile-quick-connection.connected {
+    color: #e5f5df;
+  }
+
+  .mobile-quick-recording.is-recording {
+    color: #fff3f1;
+  }
+
+  .mobile-quick-bar-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .mobile-quick-record-btn,
+  .mobile-quick-output-btn {
+    min-height: 56px;
+    font-size: 0.98rem;
+    font-weight: 700;
+  }
+
+  .mobile-quick-record-btn.is-recording {
+    background: linear-gradient(180deg, rgba(214, 115, 103, 0.98), rgba(143, 63, 56, 0.98));
+    border-color: rgba(184, 110, 102, 0.5);
+    color: #fff3f1;
+  }
+
+  .mobile-mode-toggle {
+    order: 3;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: var(--space-md);
+    padding: 6px;
+    border-radius: 16px;
+    background: rgba(15, 22, 31, 0.82);
+    border: 1px solid rgba(121, 136, 153, 0.18);
+  }
+
+  .mobile-mode-btn {
+    min-height: 48px;
+    background: transparent;
+    border-color: transparent;
+    color: var(--text-secondary);
+    box-shadow: none;
+  }
+
+  .mobile-mode-btn.is-active {
+    background: linear-gradient(180deg, rgba(215, 170, 99, 0.96), rgba(173, 131, 70, 0.96));
+    border-color: rgba(235, 191, 117, 0.54);
+    color: #14110d;
+  }
+
+  .mobile-mode-btn:hover,
+  .mobile-mode-btn:focus-visible {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .app-notes-section {
+    order: 4;
+  }
+
+  .app-notes-section.mobile-hidden,
+  .app-atem-section.mobile-hidden {
+    display: none;
+  }
+
   #noteInputs,
-  #bottomBar,
   #batchControls {
     flex-direction: column;
   }
@@ -977,6 +1090,7 @@ textarea:disabled {
 
   .atem-camera-row {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .atem-switching-rows {
@@ -984,24 +1098,34 @@ textarea:disabled {
   }
 
   .atem-camera-row-buttons {
-    grid-template-columns: repeat(3, 62px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
   }
 
   .atem-output4-tile {
     min-width: 0;
-    min-height: 58px;
+    min-height: 62px;
+    font-size: 0.82rem;
+  }
+
+  .atem-camera-btn {
+    width: 100%;
+    min-height: 74px;
+    aspect-ratio: auto;
+    font-size: 0.96rem;
+    border-radius: 14px;
   }
 
   #codeInput {
     aspect-ratio: auto;
-    min-height: 140px;
+    min-height: 110px;
   }
 
   #courseSelector,
   #atemStatusStrip,
   #notePanel,
   #notesLog,
-  #bottomBar,
   .app-section {
     margin-bottom: var(--space-md);
   }
@@ -1026,20 +1150,139 @@ textarea:disabled {
   }
 
   #timecode {
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 14vw, 4rem);
   }
 
   #currentDate {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
   }
 
   #topBar {
-    gap: 16px;
-    flex-direction: column;
-    align-items: flex-start;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
   }
 
   #brandBadge img {
-    width: 96px;
+    width: 88px;
+  }
+
+  #timecodeContainer {
+    padding: 16px 14px;
+    margin-bottom: var(--space-md);
+  }
+
+  #courseSelector {
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  #courseSelector label {
+    width: 100%;
+  }
+
+  #addCourseWrapper,
+  #courseMenuWrapper {
+    flex: 1 1 calc(50% - 5px);
+  }
+
+  #addCourseBtn,
+  #courseMenuToggle {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  #courseSelectTrigger {
+    min-height: 54px;
+  }
+
+  #atemStatusStrip {
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .atem-status-strip-primary,
+  .atem-status-strip-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .atem-status-strip-secondary {
+    margin-left: 0;
+  }
+
+  .atem-status-strip-primary {
+    gap: 12px;
+  }
+
+  .atem-status-strip-secondary .atem-status-strip-connection {
+    text-align: center;
+  }
+
+  .atem-record-toggle-btn {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .atem-panel-header {
+    align-items: stretch;
+  }
+
+  .atem-panel-header h2 {
+    font-size: 1rem;
+  }
+
+  .atem-panel-status-line {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  #notePanel {
+    padding: 16px;
+  }
+
+  #noteInputWrapper button {
+    position: static;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  #noteInput {
+    padding-right: 16px;
+  }
+
+  .noteItem {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .timestamp,
+  .noteActions {
+    font-size: 0.85rem;
+  }
+
+  #toggleDevConsole,
+  #devConsole {
+    display: none !important;
+  }
+
+  .toast-container {
+    top: 14px;
+    right: 14px;
+    left: 14px;
+  }
+
+  .toast {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 700px) and (pointer: coarse) {
+  button,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
   }
 }

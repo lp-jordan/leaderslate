@@ -99,7 +99,7 @@ function loadCourse(course) {
     notes = [];
   }
   currentCourse = course;
-  syncDerivedFilename();
+  emitAtemState();
   log(`Loaded course ${course} with ${notes.length} notes`);
 }
 
@@ -130,8 +130,6 @@ function addAutomaticAtemNote(message) {
 function syncDerivedFilename() {
   if (!currentCourse) {
     atemFilenameBase = '';
-  } else if (!atemState.recording.isRecording) {
-    atemFilenameBase = generateRecordingBaseName(currentCourse, new Date());
   }
   emitAtemState();
 }
@@ -215,6 +213,7 @@ app.post('/courses', (req, res) => {
   const dir = path.join(COURSES_DIR, name);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir);
   loadCourse(name);
+  atemFilenameBase = generateRecordingBaseName(name, new Date());
   saveNotes();
   io.emit('courseLoaded', { course: name, notes });
   log(`courseLoaded emitted for ${name}`);
@@ -531,7 +530,7 @@ io.on('connection', socket => {
         successMessage: 'Recording stopped'
       });
       addAutomaticAtemNote(`Recording stopped (${atemFilenameBase || atemState.recording.filename || 'unnamed'})`);
-      syncDerivedFilename();
+      emitAtemState();
     } catch (error) {
       log('ATEM stop recording failed', error.message);
     }

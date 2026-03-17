@@ -40,8 +40,6 @@ const noteInput = document.getElementById('noteInput');
 const addNoteBtn = document.getElementById('addNote');
 const notesLog = document.getElementById('notesLog');
 const toggleNotesLog = document.getElementById('toggleNotesLog');
-const exportCsv = document.getElementById('exportCsv');
-const ipAddress = document.getElementById('ipAddress');
 const devConsole = document.getElementById('devConsole');
 const devConsoleLog = document.getElementById('devConsoleLog');
 const toggleDevConsole = document.getElementById('toggleDevConsole');
@@ -80,10 +78,22 @@ const atemPreviewRow = document.getElementById('atemPreviewRow');
 const atemProgramRow = document.getElementById('atemProgramRow');
 const recordFilenameInput = document.getElementById('recordFilenameInput');
 const applyRecordNameBtn = document.getElementById('applyRecordNameBtn');
+const mobileQuickBar = document.getElementById('mobileQuickBar');
+const mobileQuickConnection = document.getElementById('mobileQuickConnection');
+const mobileQuickRecording = document.getElementById('mobileQuickRecording');
+const mobileQuickRecordBtn = document.getElementById('mobileQuickRecordBtn');
+const mobileQuickOutputBtn = document.getElementById('mobileQuickOutputBtn');
+const mobileModeAtem = document.getElementById('mobileModeAtem');
+const mobileModeNotes = document.getElementById('mobileModeNotes');
+const notesSection = document.querySelector('.app-notes-section');
+const atemSection = document.querySelector('.app-atem-section');
 
 let batchMode = false;
 const selected = new Set();
 let atemSwitcherExpanded = false;
+let mobileView = 'atem';
+let mobileMediaQuery = null;
+let touchSelectionTimer = null;
 
 function closeCourseDropdown() {
   courseSelectMenu.classList.add('hidden');
@@ -298,6 +308,56 @@ function setAtemSwitcherExpanded(expanded) {
   atemSwitcherToggle.classList.toggle('is-open', atemSwitcherExpanded);
 }
 
+function isMobileViewport() {
+  return Boolean(mobileMediaQuery && mobileMediaQuery.matches);
+}
+
+function applyMobileView() {
+  if (!isMobileViewport()) {
+    mobileQuickBar.classList.add('hidden');
+    mobileQuickBar.classList.remove('visible');
+    mobileQuickBar.setAttribute('aria-hidden', 'true');
+    notesSection.classList.remove('mobile-hidden');
+    atemSection.classList.remove('mobile-hidden');
+    mobileModeAtem.classList.remove('is-active');
+    mobileModeNotes.classList.remove('is-active');
+    mobileModeAtem.setAttribute('aria-selected', 'false');
+    mobileModeNotes.setAttribute('aria-selected', 'false');
+    return;
+  }
+
+  mobileQuickBar.classList.remove('hidden');
+  mobileQuickBar.classList.add('visible');
+  mobileQuickBar.setAttribute('aria-hidden', 'false');
+
+  const showingAtem = mobileView === 'atem';
+  atemSection.classList.toggle('mobile-hidden', !showingAtem);
+  notesSection.classList.toggle('mobile-hidden', showingAtem);
+  mobileModeAtem.classList.toggle('is-active', showingAtem);
+  mobileModeNotes.classList.toggle('is-active', !showingAtem);
+  mobileModeAtem.setAttribute('aria-selected', String(showingAtem));
+  mobileModeNotes.setAttribute('aria-selected', String(!showingAtem));
+}
+
+function setMobileView(view) {
+  mobileView = view === 'notes' ? 'notes' : 'atem';
+  applyMobileView();
+}
+
+function clearTouchSelectionTimer() {
+  if (touchSelectionTimer) {
+    clearTimeout(touchSelectionTimer);
+    touchSelectionTimer = null;
+  }
+}
+
+function handleMobileViewportChange() {
+  if (!isMobileViewport()) {
+    exitBatchMode();
+  }
+  applyMobileView();
+}
+
 function syncAtemControlAvailability() {
   const connected = Boolean(atemState && atemState.connected);
   const bridgeAvailable = Boolean(atemState && atemState.bridgeAvailable);
@@ -310,6 +370,8 @@ function syncAtemControlAvailability() {
   atemRecordToggleBtn.disabled = !recordAllowed;
   recordFilenameInput.disabled = !recordAllowed;
   atemIpInput.disabled = !bridgeAvailable && connected;
+  mobileQuickRecordBtn.disabled = !recordAllowed;
+  mobileQuickOutputBtn.disabled = !connected;
 
   document.querySelectorAll('.atem-camera-btn.preview-row, .atem-camera-btn.program-row').forEach(button => {
     button.disabled = !connected;
@@ -373,14 +435,20 @@ function renderAtemState(state) {
     statusParts.push(state.switcherIp);
     atemStatusStripConnection.textContent = 'Connected';
     atemStatusStripConnection.classList.add('connected');
+    mobileQuickConnection.textContent = 'Connected';
+    mobileQuickConnection.classList.add('connected');
   } else if (!state.bridgeAvailable) {
     statusParts.push('Bridge unavailable');
     atemStatusStripConnection.textContent = 'ATEM bridge unavailable';
     atemStatusStripConnection.classList.remove('connected');
+    mobileQuickConnection.textContent = 'Bridge down';
+    mobileQuickConnection.classList.remove('connected');
   } else {
     statusParts.push('Disconnected');
     atemStatusStripConnection.textContent = 'ATEM disconnected';
     atemStatusStripConnection.classList.remove('connected');
+    mobileQuickConnection.textContent = 'Disconnected';
+    mobileQuickConnection.classList.remove('connected');
   }
   if (state.lastError) {
     statusParts.push(state.lastError);
@@ -393,10 +461,17 @@ function renderAtemState(state) {
   atemStatusText.textContent = statusParts.join(' | ');
 
   if (state.output4 && state.output4.supported) {
-    atemOutput4ToggleBtn.textContent = state.output4.mode === 'program' ? 'Program' : 'Multiview';
+    atemOutput4ToggleBtn.textContent = state.output4.mode === 'program' ? 'Switch to Multiview' : 'Switch to Program';
+    mobileQuickOutputBtn.textContent = state.output4.mode === 'program' ? 'Multiview' : 'Program';
   } else {
     atemOutput4ToggleBtn.textContent = 'Output 4';
+    mobileQuickOutputBtn.textContent = 'Output 4';
   }
+
+  const isRecording = Boolean(state.recording && state.recording.isRecording);
+  mobileQuickRecording.textContent = isRecording ? 'REC On' : 'REC Off';
+  mobileQuickRecording.classList.toggle('is-recording', isRecording);
+  mobileQuickRecordBtn.classList.toggle('is-recording', isRecording);
 
   renderCameraRow(atemPreviewRow, state.previewInput, 'preview');
   renderCameraRow(atemProgramRow, state.programInput, 'program');
@@ -406,7 +481,6 @@ function renderAtemState(state) {
 fetch('/ip')
   .then(r => r.json())
   .then(data => {
-    ipAddress.textContent = data.ip;
     const url = `http://${data.ip}:4000`;
     initSocket(url);
   });
@@ -529,12 +603,6 @@ noteInput.addEventListener('keydown', e => {
   }
 });
 
-exportCsv.addEventListener('click', () => {
-  if (!currentCourse) return;
-  window.location = `/courses/${currentCourse}/export`;
-  devLog(`Export CSV for ${currentCourse}`);
-});
-
 deleteSelectedBtn.addEventListener('click', () => {
   if (selected.size === 0) return;
   const indices = Array.from(selected).sort((a, b) => a - b);
@@ -567,15 +635,39 @@ atemRecordToggleBtn.addEventListener('click', () => {
   socket.emit('atemStartRecording', { filename: recordFilenameInput.value.trim() });
 });
 
+mobileQuickRecordBtn.addEventListener('click', () => {
+  atemRecordToggleBtn.click();
+});
+
 atemOutput4ToggleBtn.addEventListener('click', () => {
   if (!atemState || !atemState.connected) return;
   const mode = atemState.output4 && atemState.output4.mode === 'program' ? 'multiview' : 'program';
   socket.emit('atemSetOutput4Mode', { mode });
 });
 
+mobileQuickOutputBtn.addEventListener('click', () => {
+  atemOutput4ToggleBtn.click();
+});
+
 atemSwitcherToggle.addEventListener('click', () => {
   setAtemSwitcherExpanded(!atemSwitcherExpanded);
 });
+
+mobileModeAtem.addEventListener('click', () => {
+  setMobileView('atem');
+});
+
+mobileModeNotes.addEventListener('click', () => {
+  setMobileView('notes');
+});
+
+mobileMediaQuery = window.matchMedia('(max-width: 700px)');
+if (typeof mobileMediaQuery.addEventListener === 'function') {
+  mobileMediaQuery.addEventListener('change', handleMobileViewportChange);
+} else if (typeof mobileMediaQuery.addListener === 'function') {
+  mobileMediaQuery.addListener(handleMobileViewportChange);
+}
+applyMobileView();
 
 function initSocket(url) {
   socket = io(url);
@@ -699,6 +791,7 @@ function renderNote(note, index) {
   }
 
   div.addEventListener('click', e => {
+    clearTouchSelectionTimer();
     if (batchMode) {
       toggleSelection();
       if (selected.size === 0) exitBatchMode();
@@ -711,6 +804,19 @@ function renderNote(note, index) {
     }
     openEditNoteModal(note, index);
   });
+
+  div.addEventListener('touchstart', () => {
+    if (!isMobileViewport() || batchMode) return;
+    clearTouchSelectionTimer();
+    touchSelectionTimer = setTimeout(() => {
+      enterBatchMode();
+      toggleSelection();
+      touchSelectionTimer = null;
+    }, 450);
+  }, { passive: true });
+
+  div.addEventListener('touchend', clearTouchSelectionTimer, { passive: true });
+  div.addEventListener('touchcancel', clearTouchSelectionTimer, { passive: true });
 
   function toggleSelection() {
     if (selected.has(index)) {
