@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1401
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitcherRecordCSharp", "SwitcherRecordCSharp.csproj", "{3C8FA17F-FA30-4838-9200-2C87E3970168}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Debug|x64.ActiveCfg = Debug|x64
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Debug|x64.Build.0 = Debug|x64
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Debug|x86.ActiveCfg = Debug|x86
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Debug|x86.Build.0 = Debug|x86
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Release|x64.ActiveCfg = Release|x64
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Release|x64.Build.0 = Release|x64
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Release|x86.ActiveCfg = Release|x86
+		{3C8FA17F-FA30-4838-9200-2C87E3970168}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B10AE01-B4C9-4404-829A-D96639C3E69C}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,132 @@
+[
+  {
+    "timestamp": "10:18:11:00",
+    "code": "1A",
+    "note": "Act 1 - Scene 1 first video starts here"
+  },
+  {
+    "timestamp": "10:23:27:06",
+    "code": "1A",
+    "note": "new ending here"
+  },
+  {
+    "timestamp": "10:28:28:10",
+    "code": "1B",
+    "note": "start second video here"
+  },
+  {
+    "timestamp": "10:36:56:15",
+    "code": "1C",
+    "note": "third video here"
+  },
+  {
+    "timestamp": "10:42:48:07",
+    "code": "1D",
+    "note": "fourth video here"
+  },
+  {
+    "timestamp": "10:48:29:16",
+    "code": "1E",
+    "note": "fifth video here"
+  },
+  {
+    "timestamp": "10:51:43:03",
+    "code": "1F",
+    "note": "6th video here"
+  },
+  {
+    "timestamp": "10:57:43:14",
+    "code": "1G",
+    "note": "7th video starts here"
+  },
+  {
+    "timestamp": "11:00:31:24",
+    "code": "1G",
+    "note": "restart here"
+  },
+  {
+    "timestamp": "11:05:41:02",
+    "code": "1H",
+    "note": "8th video here"
+  },
+  {
+    "timestamp": "11:08:01:14",
+    "code": "1H",
+    "note": "restart here "
+  },
+  {
+    "timestamp": "11:20:18:16",
+    "code": "2a",
+    "note": "ACT 1: Scene 3 - First Video Starts Here"
+  },
+  {
+    "timestamp": "11:24:37:16",
+    "code": "2a",
+    "note": "button at the end here"
+  },
+  {
+    "timestamp": "11:26:30:17",
+    "code": "2B",
+    "note": "2nd video here"
+  },
+  {
+    "timestamp": "11:31:44:12",
+    "code": "2C",
+    "note": "3rd video here"
+  },
+  {
+    "timestamp": "11:34:48:00",
+    "code": "2C",
+    "note": "pick up ending"
+  },
+  {
+    "timestamp": "11:36:19:00",
+    "code": "2D",
+    "note": "4th video here"
+  },
+  {
+    "timestamp": "11:37:57:05",
+    "code": "2D",
+    "note": "restart"
+  },
+  {
+    "timestamp": "11:45:06:14",
+    "code": "2E",
+    "note": "5th video here"
+  },
+  {
+    "timestamp": "11:49:26:22",
+    "code": "2F",
+    "note": "6th video here"
+  },
+  {
+    "timestamp": "11:51:23:01",
+    "code": "2F",
+    "note": "pick up here"
+  },
+  {
+    "timestamp": "11:57:24:08",
+    "code": "2F",
+    "note": "pick up new story to replace the current one... "
+  },
+  {
+    "timestamp": "12:02:44:04",
+    "code": "2G",
+    "note": "new video started at 12:00:58"
+  },
+  {
+    "timestamp": "12:04:12:24",
+    "code": "2H",
+    "note": "new video here"
+  },
+  {
+    "timestamp": "12:08:22:04",
+    "code": "2J",
+    "note": "next video here"
+  },
+  {
+    "timestamp": "12:13:14:22",
+    "code": "2K",
+    "note": "next video here"
+  }
+]

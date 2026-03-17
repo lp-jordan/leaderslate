@@ -1,0 +1,370 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		160DAEEE267C807A0034BB46 /* SwitcherMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 160DAEEC267C807A0034BB46 /* SwitcherMonitor.cpp */; };
+		16CCF7602671CF8600E1DAB0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16CCF75E2671CF8600E1DAB0 /* MainMenu.xib */; };
+		16CCF77126731B7000E1DAB0 /* BMDSwitcherAPIDispatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16CCF77026731B7000E1DAB0 /* BMDSwitcherAPIDispatch.cpp */; };
+		16F3A2AF267C4F0800EAC041 /* SwitcherStreamingAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16CCF75A2671CF8100E1DAB0 /* SwitcherStreamingAppDelegate.mm */; };
+		16F3A2B0267C4F0800EAC041 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CCF7622671CF8600E1DAB0 /* main.m */; };
+		16F3A2B1267C4F0800EAC041 /* SwitcherStreamingController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16CCF76A2673183700E1DAB0 /* SwitcherStreamingController.mm */; };
+		16F3A2B2267C4F0800EAC041 /* SwitcherStreamMonitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16FDA5BC26775F55003E3CE1 /* SwitcherStreamMonitor.cpp */; };
+		16FDA5BB267347CB003E3CE1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FDA5BA267347CB003E3CE1 /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		160DAEEC267C807A0034BB46 /* SwitcherMonitor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SwitcherMonitor.cpp; sourceTree = "<group>"; };
+		160DAEED267C807A0034BB46 /* SwitcherMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitcherMonitor.h; sourceTree = "<group>"; };
+		16CCF7562671CF8100E1DAB0 /* SwitcherStreaming.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwitcherStreaming.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		16CCF7592671CF8100E1DAB0 /* SwitcherStreamingAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitcherStreamingAppDelegate.h; sourceTree = "<group>"; };
+		16CCF75A2671CF8100E1DAB0 /* SwitcherStreamingAppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SwitcherStreamingAppDelegate.mm; sourceTree = "<group>"; };
+		16CCF75F2671CF8600E1DAB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		16CCF7612671CF8600E1DAB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16CCF7622671CF8600E1DAB0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		16CCF76A2673183700E1DAB0 /* SwitcherStreamingController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SwitcherStreamingController.mm; sourceTree = "<group>"; };
+		16CCF76B2673183700E1DAB0 /* SwitcherStreamingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitcherStreamingController.h; sourceTree = "<group>"; };
+		16CCF76D2673195000E1DAB0 /* com_ptr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = com_ptr.h; sourceTree = "<group>"; };
+		16CCF76F26731B7000E1DAB0 /* BMDSwitcherAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMDSwitcherAPI.h; path = ../../include/BMDSwitcherAPI.h; sourceTree = "<group>"; };
+		16CCF77026731B7000E1DAB0 /* BMDSwitcherAPIDispatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BMDSwitcherAPIDispatch.cpp; path = ../../include/BMDSwitcherAPIDispatch.cpp; sourceTree = "<group>"; };
+		16FDA5BA267347CB003E3CE1 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		16FDA5BC26775F55003E3CE1 /* SwitcherStreamMonitor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SwitcherStreamMonitor.cpp; sourceTree = "<group>"; };
+		16FDA5BD26775F55003E3CE1 /* SwitcherStreamMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwitcherStreamMonitor.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		16CCF7532671CF8100E1DAB0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16FDA5BB267347CB003E3CE1 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16CCF74D2671CF8000E1DAB0 = {
+			isa = PBXGroup;
+			children = (
+				16CCF7582671CF8100E1DAB0 /* SwitcherStreaming */,
+				16CCF7572671CF8100E1DAB0 /* Products */,
+				16FDA5B9267347CB003E3CE1 /* Frameworks */,
+				16F3A2AA267C4E3D00EAC041 /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		16CCF7572671CF8100E1DAB0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16CCF7562671CF8100E1DAB0 /* SwitcherStreaming.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16CCF7582671CF8100E1DAB0 /* SwitcherStreaming */ = {
+			isa = PBXGroup;
+			children = (
+				16CCF76E26731B4700E1DAB0 /* BMDSwitcherAPI */,
+				16CCF76D2673195000E1DAB0 /* com_ptr.h */,
+				16CCF7592671CF8100E1DAB0 /* SwitcherStreamingAppDelegate.h */,
+				16CCF75A2671CF8100E1DAB0 /* SwitcherStreamingAppDelegate.mm */,
+				16CCF7622671CF8600E1DAB0 /* main.m */,
+				16CCF76A2673183700E1DAB0 /* SwitcherStreamingController.mm */,
+				16CCF76B2673183700E1DAB0 /* SwitcherStreamingController.h */,
+				16FDA5BC26775F55003E3CE1 /* SwitcherStreamMonitor.cpp */,
+				16FDA5BD26775F55003E3CE1 /* SwitcherStreamMonitor.h */,
+				160DAEEC267C807A0034BB46 /* SwitcherMonitor.cpp */,
+				160DAEED267C807A0034BB46 /* SwitcherMonitor.h */,
+			);
+			name = SwitcherStreaming;
+			sourceTree = "<group>";
+		};
+		16CCF76E26731B4700E1DAB0 /* BMDSwitcherAPI */ = {
+			isa = PBXGroup;
+			children = (
+				16CCF76F26731B7000E1DAB0 /* BMDSwitcherAPI.h */,
+				16CCF77026731B7000E1DAB0 /* BMDSwitcherAPIDispatch.cpp */,
+			);
+			name = BMDSwitcherAPI;
+			sourceTree = "<group>";
+		};
+		16F3A2AA267C4E3D00EAC041 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				16CCF75E2671CF8600E1DAB0 /* MainMenu.xib */,
+				16CCF7612671CF8600E1DAB0 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		16FDA5B9267347CB003E3CE1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				16FDA5BA267347CB003E3CE1 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		16CCF7552671CF8100E1DAB0 /* SwitcherStreaming */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16CCF7672671CF8600E1DAB0 /* Build configuration list for PBXNativeTarget "SwitcherStreaming" */;
+			buildPhases = (
+				16CCF7522671CF8100E1DAB0 /* Sources */,
+				16CCF7532671CF8100E1DAB0 /* Frameworks */,
+				16CCF7542671CF8100E1DAB0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwitcherStreaming;
+			productName = SwitcherStreaming;
+			productReference = 16CCF7562671CF8100E1DAB0 /* SwitcherStreaming.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		16CCF74E2671CF8100E1DAB0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1150;
+				TargetAttributes = {
+					16CCF7552671CF8100E1DAB0 = {
+						CreatedOnToolsVersion = 11.5;
+					};
+				};
+			};
+			buildConfigurationList = 16CCF7512671CF8100E1DAB0 /* Build configuration list for PBXProject "SwitcherStreaming" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 16CCF74D2671CF8000E1DAB0;
+			productRefGroup = 16CCF7572671CF8100E1DAB0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				16CCF7552671CF8100E1DAB0 /* SwitcherStreaming */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		16CCF7542671CF8100E1DAB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16CCF7602671CF8600E1DAB0 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16CCF7522671CF8100E1DAB0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16F3A2AF267C4F0800EAC041 /* SwitcherStreamingAppDelegate.mm in Sources */,
+				16F3A2B0267C4F0800EAC041 /* main.m in Sources */,
+				16F3A2B1267C4F0800EAC041 /* SwitcherStreamingController.mm in Sources */,
+				16F3A2B2267C4F0800EAC041 /* SwitcherStreamMonitor.cpp in Sources */,
+				16CCF77126731B7000E1DAB0 /* BMDSwitcherAPIDispatch.cpp in Sources */,
+				160DAEEE267C807A0034BB46 /* SwitcherMonitor.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		16CCF75E2671CF8600E1DAB0 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16CCF75F2671CF8600E1DAB0 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		16CCF7652671CF8600E1DAB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		16CCF7662671CF8600E1DAB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		16CCF7682671CF8600E1DAB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmagic-design.switchers.sdk.SwitcherStreaming";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		16CCF7692671CF8600E1DAB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmagic-design.switchers.sdk.SwitcherStreaming";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		16CCF7512671CF8100E1DAB0 /* Build configuration list for PBXProject "SwitcherStreaming" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16CCF7652671CF8600E1DAB0 /* Debug */,
+				16CCF7662671CF8600E1DAB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16CCF7672671CF8600E1DAB0 /* Build configuration list for PBXNativeTarget "SwitcherStreaming" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16CCF7682671CF8600E1DAB0 /* Debug */,
+				16CCF7692671CF8600E1DAB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 16CCF74E2671CF8100E1DAB0 /* Project object */;
+}

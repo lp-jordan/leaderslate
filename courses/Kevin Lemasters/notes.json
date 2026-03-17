@@ -1,0 +1,82 @@
+[
+  {
+    "timestamp": "10:57:50:01",
+    "code": "8G",
+    "note": "put smart goal words on screen?"
+  },
+  {
+    "timestamp": "14:37:07:15",
+    "code": "ATEM",
+    "note": "Recording filename set to Test"
+  },
+  {
+    "timestamp": "14:37:23:06",
+    "code": "ATEM",
+    "note": "Recording filename set to Test"
+  },
+  {
+    "timestamp": "14:37:23:06",
+    "code": "ATEM",
+    "note": "Recording started (Test)"
+  },
+  {
+    "timestamp": "14:37:30:24",
+    "code": "ATEM",
+    "note": "Recording stopped (Test)"
+  },
+  {
+    "timestamp": "14:37:34:04",
+    "code": "ATEM",
+    "note": "Preview set to Black"
+  },
+  {
+    "timestamp": "14:37:35:19",
+    "code": "ATEM",
+    "note": "Preview set to Black"
+  },
+  {
+    "timestamp": "14:37:38:11",
+    "code": "ATEM",
+    "note": "Preview set to Camera 1"
+  },
+  {
+    "timestamp": "14:37:39:19",
+    "code": "ATEM",
+    "note": "Preview set to Camera 2"
+  },
+  {
+    "timestamp": "14:37:41:05",
+    "code": "ATEM",
+    "note": "Preview set to Camera 3"
+  },
+  {
+    "timestamp": "14:37:41:23",
+    "code": "ATEM",
+    "note": "Preview set to Camera 2"
+  },
+  {
+    "timestamp": "14:56:25:16",
+    "code": "ATEM",
+    "note": "Preview set to Camera 1"
+  },
+  {
+    "timestamp": "14:56:33:11",
+    "code": "ATEM",
+    "note": "Auto transition to Camera 1"
+  },
+  {
+    "timestamp": "14:56:34:18",
+    "code": "ATEM",
+    "note": "Cut to Camera 1"
+  },
+  {
+    "timestamp": "14:59:35:20",
+    "code": "ATEM",
+    "note": "Recording filename set to Test"
+  },
+  {
+    "timestamp": "14:59:35:20",
+    "code": "ATEM",
+    "note": "Recording started (Test)"
+  }
+]

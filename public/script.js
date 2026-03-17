@@ -1,10 +1,11 @@
 let socket;
 let currentCourse = null;
 let notesArr = [];
+let atemState = null;
 
 function updateTimecode() {
   const now = new Date();
-  const frames = Math.floor(now.getMilliseconds() / 40); // approx 25fps
+  const frames = Math.floor(now.getMilliseconds() / 40);
   const tc = now.toTimeString().split(' ')[0] + ':' + String(frames).padStart(2, '0');
   document.getElementById('timecode').innerText = tc;
 }
@@ -19,6 +20,10 @@ updateDate();
 setInterval(updateDate, 60 * 60 * 1000);
 
 const courseSelect = document.getElementById('courseSelect');
+const courseSelectWrap = document.getElementById('courseSelectWrap');
+const courseSelectTrigger = document.getElementById('courseSelectTrigger');
+const courseSelectLabel = document.getElementById('courseSelectLabel');
+const courseSelectMenu = document.getElementById('courseSelectMenu');
 const newCourse = document.getElementById('newCourse');
 const createCourse = document.getElementById('createCourse');
 const addCourseBtn = document.getElementById('addCourseBtn');
@@ -60,9 +65,70 @@ const batchControls = document.getElementById('batchControls');
 const deleteSelectedBtn = document.getElementById('deleteSelected');
 const deselectAllBtn = document.getElementById('deselectAll');
 const toastContainer = document.getElementById('toastContainer');
+const atemRecordToggleBtn = document.getElementById('atemRecordToggleBtn');
+const atemStatusStripRecording = document.getElementById('atemStatusStripRecording');
+const atemStatusStripConnection = document.getElementById('atemStatusStripConnection');
+const atemIpInput = document.getElementById('atemIpInput');
+const atemConnectBtn = document.getElementById('atemConnectBtn');
+const atemDisconnectBtn = document.getElementById('atemDisconnectBtn');
+const atemStatusText = document.getElementById('atemStatusText');
+const atemSwitcherToggle = document.getElementById('atemSwitcherToggle');
+const atemOutput4ToggleBtn = document.getElementById('atemOutput4ToggleBtn');
+const atemSwitcherContent = document.getElementById('atemSwitcherContent');
+const atemPanel = document.getElementById('atemPanel');
+const atemPreviewRow = document.getElementById('atemPreviewRow');
+const atemProgramRow = document.getElementById('atemProgramRow');
+const recordFilenameInput = document.getElementById('recordFilenameInput');
+const applyRecordNameBtn = document.getElementById('applyRecordNameBtn');
 
 let batchMode = false;
 const selected = new Set();
+let atemSwitcherExpanded = false;
+
+function closeCourseDropdown() {
+  courseSelectMenu.classList.add('hidden');
+  courseSelectTrigger.setAttribute('aria-expanded', 'false');
+  courseSelectWrap.classList.remove('open');
+}
+
+function openCourseDropdown() {
+  if (courseSelect.disabled) return;
+  courseSelectMenu.classList.remove('hidden');
+  courseSelectTrigger.setAttribute('aria-expanded', 'true');
+  courseSelectWrap.classList.add('open');
+}
+
+function renderCourseDropdown(courses, current) {
+  courseSelectMenu.innerHTML = '';
+  courseSelectLabel.textContent = current || 'Select a course';
+
+  if (courses.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'courseOption empty';
+    empty.textContent = 'No courses available';
+    courseSelectMenu.appendChild(empty);
+    return;
+  }
+
+  courses.forEach(course => {
+    const option = document.createElement('button');
+    option.type = 'button';
+    option.className = 'courseOption';
+    option.textContent = course;
+    option.setAttribute('role', 'option');
+    option.setAttribute('aria-selected', String(course === current));
+    if (course === current) {
+      option.classList.add('selected');
+    }
+    option.addEventListener('click', () => {
+      closeCourseDropdown();
+      if (courseSelect.value === course) return;
+      courseSelect.value = course;
+      courseSelect.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    courseSelectMenu.appendChild(option);
+  });
+}
 
 function setNoActiveCourse() {
   currentCourse = null;
@@ -73,6 +139,7 @@ function setNoActiveCourse() {
   addNoteBtn.disabled = true;
   renameCourseBtn.disabled = true;
   deleteCourseBtn.disabled = true;
+  syncAtemControlAvailability();
 }
 
 function setActiveCourse(course, notes) {
@@ -86,6 +153,7 @@ function setActiveCourse(course, notes) {
   addNoteBtn.disabled = false;
   renameCourseBtn.disabled = false;
   deleteCourseBtn.disabled = false;
+  syncAtemControlAvailability();
 }
 
 setNoActiveCourse();
@@ -99,13 +167,28 @@ toggleNotesLog.addEventListener('click', () => {
   toggleNotesLog.textContent = notesLog.classList.contains('hidden') ? 'Show Log' : 'Hide Log';
 });
 
-courseMenuToggle.addEventListener('click', (e) => {
+courseSelectTrigger.addEventListener('click', e => {
   e.stopPropagation();
   newCourseControls.classList.add('hidden');
+  courseMenu.classList.add('hidden');
+  if (courseSelectMenu.classList.contains('hidden')) {
+    openCourseDropdown();
+  } else {
+    closeCourseDropdown();
+  }
+});
+
+courseMenuToggle.addEventListener('click', e => {
+  e.stopPropagation();
+  newCourseControls.classList.add('hidden');
+  closeCourseDropdown();
   courseMenu.classList.toggle('hidden');
 });
 
-document.addEventListener('click', (e) => {
+document.addEventListener('click', e => {
+  if (!courseSelectWrap.contains(e.target)) {
+    closeCourseDropdown();
+  }
   if (!courseMenuWrapper.contains(e.target)) {
     courseMenu.classList.add('hidden');
   }
@@ -138,7 +221,10 @@ function showAlert(message) {
 function showConfirm(message, onOk) {
   confirmMessage.textContent = message;
   showModal(confirmModal);
-  confirmOk.onclick = () => { hideModal(confirmModal); onOk(); };
+  confirmOk.onclick = () => {
+    hideModal(confirmModal);
+    onOk();
+  };
   confirmCancel.onclick = () => hideModal(confirmModal);
 }
 
@@ -160,7 +246,7 @@ function exitBatchMode() {
   batchControls.classList.add('hidden');
   document.querySelectorAll('.noteActions').forEach(a => a.classList.remove('hidden'));
   document.querySelectorAll('.noteItem').forEach(n => n.classList.remove('selected'));
-    document.querySelectorAll('.selectBox').forEach(cb => {
+  document.querySelectorAll('.selectBox').forEach(cb => {
     cb.classList.add('hidden');
     cb.checked = false;
   });
@@ -197,6 +283,126 @@ editCancel.addEventListener('click', () => {
   editIndex = null;
 });
 
+function getInputLabel(inputId) {
+  if (!atemState || !Array.isArray(atemState.inputs)) {
+    return 'None';
+  }
+  const match = atemState.inputs.find(item => String(item.id) === String(inputId));
+  return match ? match.label : 'None';
+}
+
+function setAtemSwitcherExpanded(expanded) {
+  atemSwitcherExpanded = Boolean(expanded);
+  atemSwitcherContent.classList.toggle('hidden', !atemSwitcherExpanded);
+  atemSwitcherToggle.setAttribute('aria-expanded', String(atemSwitcherExpanded));
+  atemSwitcherToggle.classList.toggle('is-open', atemSwitcherExpanded);
+}
+
+function syncAtemControlAvailability() {
+  const connected = Boolean(atemState && atemState.connected);
+  const bridgeAvailable = Boolean(atemState && atemState.bridgeAvailable);
+  const recordAllowed = Boolean(currentCourse && connected);
+
+  atemConnectBtn.disabled = false;
+  atemDisconnectBtn.disabled = !connected;
+  atemOutput4ToggleBtn.disabled = !connected;
+  applyRecordNameBtn.disabled = !recordAllowed;
+  atemRecordToggleBtn.disabled = !recordAllowed;
+  recordFilenameInput.disabled = !recordAllowed;
+  atemIpInput.disabled = !bridgeAvailable && connected;
+
+  document.querySelectorAll('.atem-camera-btn.preview-row, .atem-camera-btn.program-row').forEach(button => {
+    button.disabled = !connected;
+  });
+}
+
+setAtemSwitcherExpanded(false);
+
+function renderCameraRow(container, activeInputId, rowType) {
+  container.innerHTML = '';
+
+  for (let inputId = 1; inputId <= 6; inputId += 1) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `atem-camera-btn ${rowType}-row`;
+    button.textContent = `Cam ${inputId}`;
+
+    if (String(activeInputId) === String(inputId)) {
+      button.classList.add(rowType === 'preview' ? 'is-preview' : 'is-program');
+    }
+
+    if (rowType === 'preview') {
+      button.addEventListener('click', () => {
+        if (!socket) return;
+        socket.emit('atemSetPreview', { inputId });
+      });
+    } else {
+      button.addEventListener('click', () => {
+        if (!socket) return;
+        socket.emit('atemSetProgram', { inputId });
+      });
+    }
+
+    container.appendChild(button);
+  }
+
+  syncAtemControlAvailability();
+}
+
+function renderAtemState(state) {
+  atemState = state;
+  atemIpInput.value = state.switcherIp || atemIpInput.value || '';
+
+  if (state.recording && state.recording.isRecording) {
+    atemStatusStripRecording.textContent = 'On';
+    atemRecordToggleBtn.classList.add('is-recording');
+  } else if (state.connected) {
+    atemStatusStripRecording.textContent = 'Off';
+    atemRecordToggleBtn.classList.remove('is-recording');
+  } else {
+    atemStatusStripRecording.textContent = 'Off';
+    atemRecordToggleBtn.classList.remove('is-recording');
+  }
+
+  if (document.activeElement !== recordFilenameInput) {
+    recordFilenameInput.value = state.recording && state.recording.filename ? state.recording.filename : '';
+  }
+
+  const statusParts = [];
+  if (state.connected && state.switcherIp) {
+    statusParts.push(state.switcherIp);
+    atemStatusStripConnection.textContent = 'Connected';
+    atemStatusStripConnection.classList.add('connected');
+  } else if (!state.bridgeAvailable) {
+    statusParts.push('Bridge unavailable');
+    atemStatusStripConnection.textContent = 'ATEM bridge unavailable';
+    atemStatusStripConnection.classList.remove('connected');
+  } else {
+    statusParts.push('Disconnected');
+    atemStatusStripConnection.textContent = 'ATEM disconnected';
+    atemStatusStripConnection.classList.remove('connected');
+  }
+  if (state.lastError) {
+    statusParts.push(state.lastError);
+  }
+  if (state.recording && state.recording.isRecording) {
+    statusParts.push(`REC ${state.recording.filename || 'unnamed'}`);
+  } else if (state.recording && state.recording.filename) {
+    statusParts.push(state.recording.filename);
+  }
+  atemStatusText.textContent = statusParts.join(' | ');
+
+  if (state.output4 && state.output4.supported) {
+    atemOutput4ToggleBtn.textContent = state.output4.mode === 'program' ? 'Program' : 'Multiview';
+  } else {
+    atemOutput4ToggleBtn.textContent = 'Output 4';
+  }
+
+  renderCameraRow(atemPreviewRow, state.previewInput, 'preview');
+  renderCameraRow(atemProgramRow, state.programInput, 'program');
+  syncAtemControlAvailability();
+}
+
 fetch('/ip')
   .then(r => r.json())
   .then(data => {
@@ -208,29 +414,33 @@ fetch('/ip')
 function refreshCourseList() {
   fetch('/courses').then(r => r.json()).then(data => {
     courseSelect.innerHTML = data.courses.map(c => `<option value="${c}">${c}</option>`).join('');
+    renderCourseDropdown(data.courses, data.current);
     if (data.courses.length === 0) {
-      courseSelect.classList.add('hidden');
+      courseSelectWrap.classList.add('hidden');
       noCourseText.classList.remove('hidden');
     } else {
-      courseSelect.classList.remove('hidden');
+      courseSelectWrap.classList.remove('hidden');
       noCourseText.classList.add('hidden');
     }
     if (data.current) {
       courseSelect.value = data.current;
+      courseSelectLabel.textContent = data.current;
       if (socket && socket.connected && currentCourse !== data.current) {
         socket.emit('loadCourse', data.current);
       }
     } else {
       courseSelect.value = '';
+      courseSelectLabel.textContent = 'Select a course';
       setNoActiveCourse();
     }
   });
 }
 refreshCourseList();
 
-addCourseBtn.addEventListener('click', (e) => {
+addCourseBtn.addEventListener('click', e => {
   e.stopPropagation();
   courseMenu.classList.add('hidden');
+  closeCourseDropdown();
   newCourseControls.classList.toggle('hidden');
   if (!newCourseControls.classList.contains('hidden')) {
     newCourse.focus();
@@ -240,13 +450,16 @@ addCourseBtn.addEventListener('click', (e) => {
 createCourse.addEventListener('click', () => {
   const name = newCourse.value.trim();
   if (!name) return;
-  fetch('/courses', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name }) })
-    .then(() => {
-      newCourse.value = '';
-      newCourseControls.classList.add('hidden');
-      refreshCourseList();
-      devLog(`Created course ${name}`);
-    });
+  fetch('/courses', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name })
+  }).then(() => {
+    newCourse.value = '';
+    newCourseControls.classList.add('hidden');
+    refreshCourseList();
+    devLog(`Created course ${name}`);
+  });
 });
 
 renameCourseBtn.addEventListener('click', () => {
@@ -264,7 +477,10 @@ renameOk.addEventListener('click', () => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name: newName })
-  }).then(() => { refreshCourseList(); devLog(`Renamed course to ${newName}`); });
+  }).then(() => {
+    refreshCourseList();
+    devLog(`Renamed course to ${newName}`);
+  });
 });
 renameCancel.addEventListener('click', () => hideModal(renameModal));
 
@@ -283,7 +499,9 @@ deleteCourseBtn.addEventListener('click', () => {
 
 courseSelect.addEventListener('change', () => {
   const course = courseSelect.value;
-  fetch(`/courses/${course}/select`, { method: 'POST' }).then(() => { devLog(`Selected course ${course}`); });
+  fetch(`/courses/${course}/select`, { method: 'POST' }).then(() => {
+    devLog(`Selected course ${course}`);
+  });
 });
 
 codeInput.addEventListener('input', () => {
@@ -304,7 +522,7 @@ function sendNote() {
 
 addNoteBtn.addEventListener('click', sendNote);
 
-noteInput.addEventListener('keydown', (e) => {
+noteInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     e.preventDefault();
     sendNote();
@@ -319,13 +537,44 @@ exportCsv.addEventListener('click', () => {
 
 deleteSelectedBtn.addEventListener('click', () => {
   if (selected.size === 0) return;
-  const indices = Array.from(selected).sort((a,b) => a - b);
+  const indices = Array.from(selected).sort((a, b) => a - b);
   socket.emit('deleteNotes', indices);
   exitBatchMode();
 });
 
 deselectAllBtn.addEventListener('click', () => {
   exitBatchMode();
+});
+
+atemConnectBtn.addEventListener('click', () => {
+  socket.emit('atemConnect', { ipAddress: atemIpInput.value.trim() });
+});
+
+atemDisconnectBtn.addEventListener('click', () => {
+  socket.emit('atemDisconnect');
+});
+
+applyRecordNameBtn.addEventListener('click', () => {
+  socket.emit('atemSetFilename', { filename: recordFilenameInput.value.trim() });
+});
+
+atemRecordToggleBtn.addEventListener('click', () => {
+  if (!atemState || !atemState.connected) return;
+  if (atemState.recording && atemState.recording.isRecording) {
+    socket.emit('atemStopRecording');
+    return;
+  }
+  socket.emit('atemStartRecording', { filename: recordFilenameInput.value.trim() });
+});
+
+atemOutput4ToggleBtn.addEventListener('click', () => {
+  if (!atemState || !atemState.connected) return;
+  const mode = atemState.output4 && atemState.output4.mode === 'program' ? 'multiview' : 'program';
+  socket.emit('atemSetOutput4Mode', { mode });
+});
+
+atemSwitcherToggle.addEventListener('click', () => {
+  setAtemSwitcherExpanded(!atemSwitcherExpanded);
 });
 
 function initSocket(url) {
@@ -338,6 +587,7 @@ function initSocket(url) {
   socket.on('connect', () => {
     devLog('Connected to server');
     refreshCourseList();
+    socket.emit('requestAtemState');
   });
   socket.on('courseLoaded', data => {
     setActiveCourse(data.course, data.notes);
@@ -369,7 +619,7 @@ function initSocket(url) {
     showToast('Note deleted');
   });
   socket.on('notesDeleted', indices => {
-    indices.sort((a,b) => b - a).forEach(i => notesArr.splice(i,1));
+    indices.sort((a, b) => b - a).forEach(i => notesArr.splice(i, 1));
     renderNotes();
     devLog('Notes deleted');
     showToast('Notes deleted');
@@ -382,8 +632,14 @@ function initSocket(url) {
   socket.on('codeUpdate', value => {
     codeInput.value = value;
   });
-  socket.on('error', message => {
-    showAlert(message);
+  socket.on('atemState', state => {
+    renderAtemState(state);
+    devLog(`ATEM state updated (${state.connected ? 'connected' : 'disconnected'})`);
+  });
+  socket.on('atemCommandResult', payload => {
+    if (!payload || !payload.message) return;
+    showToast(payload.message);
+    devLog(payload.message);
   });
 }
 
@@ -406,15 +662,14 @@ function renderNote(note, index) {
 
   const text = document.createElement('span');
   text.className = 'noteText';
-  text.textContent = ` ${note.code} - ${note.note}`;
+  text.textContent = note.code ? `${note.code} - ${note.note}` : note.note;
 
   const actions = document.createElement('span');
   actions.className = 'noteActions';
   const delBtn = document.createElement('span');
-  delBtn.textContent = '🗑️';
+  delBtn.textContent = 'Delete';
   delBtn.style.cursor = 'pointer';
-  delBtn.style.marginLeft = '10px';
-  delBtn.addEventListener('click', (ev) => {
+  delBtn.addEventListener('click', ev => {
     ev.stopPropagation();
     showConfirm('Delete this note?', () => {
       socket.emit('deleteNote', index);
@@ -443,7 +698,7 @@ function renderNote(note, index) {
     selectBox.classList.remove('hidden');
   }
 
-  div.addEventListener('click', (e) => {
+  div.addEventListener('click', e => {
     if (batchMode) {
       toggleSelection();
       if (selected.size === 0) exitBatchMode();

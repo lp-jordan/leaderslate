@@ -1,0 +1,109 @@
+﻿<Window x:Class="SwitcherStreamingCSharp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SwitcherStreamingCSharp"
+        mc:Ignorable="d"
+        Title="Switcher Streaming" Height="auto" Width="400"  SizeToContent="WidthAndHeight" Loaded="Window_Loaded" Closing="Window_Closing">
+    <DockPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <TextBlock x:Name="statusBarItemStreamStatus">Not Connected</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1" HorizontalAlignment="Center">
+                <TextBlock x:Name="statusBarItemTimecode" HorizontalAlignment="Center">00:00:00</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <ProgressBar x:Name="statusBarItemCachedUsedBar" Value="0" Width="80" Height="18" Minimum="0" Maximum="1"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3" HorizontalAlignment="Center">
+                <TextBlock x:Name="statusBarItemEncodingBitrate">0.0 Mb/s</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <StackPanel HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" Width="auto">
+            <GroupBox Header="Switcher">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="IP Address:" VerticalAlignment="Center" Margin="3"/>
+                    <Border x:Name="borderIPAddr" Grid.Column="1" BorderBrush="#FFABADB3" BorderThickness="1" Margin="3" MouseEnter="BorderIPAddr_MouseEnter" MouseLeave="BorderIPAddr_MouseLeave">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="12" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="textBoxIPAddr1" HorizontalAlignment="Center" VerticalAlignment="Bottom"  TextAlignment="Center" Width="30" Margin="3,3,0,3" BorderBrush="{x:Null}" SelectionBrush="Transparent" PreviewTextInput="TextBoxIPAddr1_PreviewTextInput"/>
+                            <Label Content="." Margin="0" Grid.Column="1"/>
+                            <TextBox x:Name="textBoxIPAddr2" HorizontalAlignment="Center" VerticalAlignment="Bottom"  TextAlignment="Center" Width="30" Margin="0,3,0,3" Grid.Column="2" BorderBrush="{x:Null}" SelectionBrush="Transparent" PreviewTextInput="TextBoxIPAddr2_PreviewTextInput"/>
+                            <Label Content="." Margin="0" Grid.Column="3"/>
+                            <TextBox x:Name="textBoxIPAddr3" HorizontalAlignment="Center" VerticalAlignment="Bottom"  TextAlignment="Center" Width="30" Margin="0,3,0,3" Grid.Column="4" BorderBrush="{x:Null}" SelectionBrush="Transparent" PreviewTextInput="TextBoxIPAddr3_PreviewTextInput"/>
+                            <Label Content="." Margin="0" Grid.Column="5"/>
+                            <TextBox x:Name="textBoxIPAddr4" HorizontalAlignment="Center" VerticalAlignment="Bottom"  TextAlignment="Center" Width="30" Margin="0,3,3,3" Grid.Column="6" BorderBrush="{x:Null}" SelectionBrush="Transparent" PreviewTextInput="TextBoxIPAddr4_PreviewTextInput"/>
+                        </Grid>
+                    </Border>
+                    <Button x:Name="buttonConnect" Content="Connect" Margin="3" Padding="3" Grid.Column="2" MinWidth="75" Click="ButtonConnect_Click"/>
+                    <Label Content="Product Name:" Grid.Row="1" Grid.Column="0" Margin="3"/>
+                    <TextBox x:Name="textBoxProductName" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="3" Padding="3" IsReadOnly="True"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox x:Name="groupBoxStreamingSettings" Header="Streaming Settings">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Service Name:" Margin="3"/>
+                    <TextBox x:Name="textBoxServiceName" Grid.Column="1" Grid.ColumnSpan="2" Margin="3" Padding="3" LostFocus="TextBoxServiceName_LostFocus"/>
+                    <Label Content="Server URL:" Margin="3" Grid.Row="1"/>
+                    <TextBox x:Name="textBoxStreamURL" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="3" Padding="3" LostFocus="TextBoxStreamURL_LostFocus"/>
+                    <Label Content="Stream Key:" Margin="3" Grid.Row="2"/>
+                    <TextBox x:Name="textBoxStreamKey" Grid.Row="2" Grid.Column="1" Margin="3" Padding="3" Visibility="Hidden" LostFocus="TextBoxStreamKey_LostFocus" />
+                    <PasswordBox x:Name="passwordBoxStreamKey" Grid.Row="2" Grid.Column="1" Margin="3" Padding="3" PasswordChar="*" Visibility="Visible" LostFocus="PasswordBoxStreamKey_LostFocus"/>
+                    <Button x:Name="buttonStreamKeyHide" Content="Show" Grid.Row="2" Grid.Column="2" Margin="3" Click="ButtonStreamKeyHide_Click"/>
+                    <Label Content="Stream Quality:" Margin="3" Grid.Row="3"/>
+                    <ComboBox x:Name="comboBoxStreamQuality" Margin="3" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" SelectionChanged="ComboBoxStreamQuality_SelectionChanged" DropDownClosed="ComboBoxStreamQuality_DropDownClosed" DropDownOpened="ComboBoxStreamQuality_DropDownOpened"/>
+                    <CheckBox x:Name="checkBoxLowLatency" Content="Low Latency" Grid.Row="4" Grid.Column="1" Margin="3" Click="CheckBoxLowLatency_Click"/>
+
+                </Grid>
+            </GroupBox>
+                <Button x:Name="buttonStartStopStreaming" Content="Start Streaming" Margin="3" MaxWidth="100" MinHeight="30" Click="ButtonStartStopStreaming_Click"/>
+        </StackPanel>
+    </DockPanel>
+
+</Window>

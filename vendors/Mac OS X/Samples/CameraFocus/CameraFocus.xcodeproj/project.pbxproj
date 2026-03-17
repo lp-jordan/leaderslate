@@ -1,0 +1,273 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		98B54C0F1CB489B9007F7FF2 /* CameraFocus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 98B54C0E1CB489B9007F7FF2 /* CameraFocus.cpp */; };
+		98B54C141CB48A1B007F7FF2 /* BMDSwitcherAPIDispatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 98B54C131CB48A1B007F7FF2 /* BMDSwitcherAPIDispatch.cpp */; };
+		98B54C161CB48A79007F7FF2 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B54C151CB48A78007F7FF2 /* CoreFoundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		98B54C021CB487FF007F7FF2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		98B54C041CB487FF007F7FF2 /* CameraFocus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CameraFocus; sourceTree = BUILT_PRODUCTS_DIR; };
+		98B54C0E1CB489B9007F7FF2 /* CameraFocus.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraFocus.cpp; sourceTree = SOURCE_ROOT; };
+		98B54C121CB48A1B007F7FF2 /* BMDSwitcherAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BMDSwitcherAPI.h; path = ../../include/BMDSwitcherAPI.h; sourceTree = "<group>"; };
+		98B54C131CB48A1B007F7FF2 /* BMDSwitcherAPIDispatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BMDSwitcherAPIDispatch.cpp; path = ../../include/BMDSwitcherAPIDispatch.cpp; sourceTree = "<group>"; };
+		98B54C151CB48A78007F7FF2 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		98B54C011CB487FF007F7FF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98B54C161CB48A79007F7FF2 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		98B54BFB1CB487FF007F7FF2 = {
+			isa = PBXGroup;
+			children = (
+				98B54C061CB487FF007F7FF2 /* CameraFocus */,
+				98B54C111CB48A04007F7FF2 /* Other Sources */,
+				98B54C101CB489F0007F7FF2 /* Frameworks */,
+				98B54C051CB487FF007F7FF2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		98B54C051CB487FF007F7FF2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				98B54C041CB487FF007F7FF2 /* CameraFocus */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		98B54C061CB487FF007F7FF2 /* CameraFocus */ = {
+			isa = PBXGroup;
+			children = (
+				98B54C0E1CB489B9007F7FF2 /* CameraFocus.cpp */,
+			);
+			path = CameraFocus;
+			sourceTree = "<group>";
+		};
+		98B54C101CB489F0007F7FF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				98B54C151CB48A78007F7FF2 /* CoreFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		98B54C111CB48A04007F7FF2 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				98B54C121CB48A1B007F7FF2 /* BMDSwitcherAPI.h */,
+				98B54C131CB48A1B007F7FF2 /* BMDSwitcherAPIDispatch.cpp */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		98B54C031CB487FF007F7FF2 /* CameraFocus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98B54C0B1CB487FF007F7FF2 /* Build configuration list for PBXNativeTarget "CameraFocus" */;
+			buildPhases = (
+				98B54C001CB487FF007F7FF2 /* Sources */,
+				98B54C011CB487FF007F7FF2 /* Frameworks */,
+				98B54C021CB487FF007F7FF2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CameraFocus;
+			productName = CameraFocus;
+			productReference = 98B54C041CB487FF007F7FF2 /* CameraFocus */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98B54BFC1CB487FF007F7FF2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Blackmagic Design";
+				TargetAttributes = {
+					98B54C031CB487FF007F7FF2 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 98B54BFF1CB487FF007F7FF2 /* Build configuration list for PBXProject "CameraFocus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 98B54BFB1CB487FF007F7FF2;
+			productRefGroup = 98B54C051CB487FF007F7FF2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				98B54C031CB487FF007F7FF2 /* CameraFocus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		98B54C001CB487FF007F7FF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98B54C0F1CB489B9007F7FF2 /* CameraFocus.cpp in Sources */,
+				98B54C141CB48A1B007F7FF2 /* BMDSwitcherAPIDispatch.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		98B54C091CB487FF007F7FF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		98B54C0A1CB487FF007F7FF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		98B54C0C1CB487FF007F7FF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CODE_SIGN_FLAGS = "-i com.blackmagic-design.switchers.sdk.camerafocus";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		98B54C0D1CB487FF007F7FF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CODE_SIGN_FLAGS = "-i com.blackmagic-design.switchers.sdk.camerafocus";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		98B54BFF1CB487FF007F7FF2 /* Build configuration list for PBXProject "CameraFocus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98B54C091CB487FF007F7FF2 /* Debug */,
+				98B54C0A1CB487FF007F7FF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		98B54C0B1CB487FF007F7FF2 /* Build configuration list for PBXNativeTarget "CameraFocus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98B54C0C1CB487FF007F7FF2 /* Debug */,
+				98B54C0D1CB487FF007F7FF2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 98B54BFC1CB487FF007F7FF2 /* Project object */;
+}

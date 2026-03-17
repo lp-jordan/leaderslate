@@ -7,63 +7,143 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="page-glow page-glow-gold"></div>
+  <div class="page-glow page-glow-blue"></div>
+
   <div class="app-container">
-  <div id="topBar">
-    <div id="logo">
-  <img src="/logos/leaderpass-studios-logo-white_small.png" alt="LeaderPass Studios Logo"></div>
-    <div id="currentDate"></div>
-  </div>
+    <div id="topBar">
+      <div id="brandBadge">
+        <img src="/logos/leaderpass-studios-logo-white_small.png" alt="LeaderPass Studios Logo">
+      </div>
+      <div id="currentDate"></div>
+    </div>
 
-  <div id="timecodeContainer">
-    <div id="timecode">00:00:00:00</div>
-  </div>
+    <div class="app-section app-hero-section">
+      <div id="timecodeContainer">
+        <div id="timecode">00:00:00:00</div>
+      </div>
 
-  <div id="courseSelector">
-    <label for="courseSelect">Course:</label>
-    <select id="courseSelect"></select>
-    <span id="noCourseText" class="hidden">No Course Selected</span>
-    <div id="addCourseWrapper">
-      <button id="addCourseBtn" title="Create Course">+</button>
-      <div id="newCourseControls" class="hidden">
-        <input id="newCourse" placeholder="New Course" />
-        <button id="createCourse">Create</button>
+      <div id="courseSelector">
+        <label for="courseSelect">Course</label>
+        <div id="courseSelectWrap">
+          <select id="courseSelect" class="hidden"></select>
+          <button id="courseSelectTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span id="courseSelectLabel">Select a course</span>
+            <span class="courseSelectCaret">v</span>
+          </button>
+          <div id="courseSelectMenu" class="hidden" role="listbox" aria-label="Courses"></div>
+        </div>
+        <span id="noCourseText" class="hidden">No Course Selected</span>
+        <div id="addCourseWrapper">
+          <button id="addCourseBtn" title="Create Course">+ New</button>
+          <div id="newCourseControls" class="hidden">
+            <div class="menuLabel">Create course</div>
+            <input id="newCourse" placeholder="New Course" />
+            <button id="createCourse">Create</button>
+          </div>
+        </div>
+        <div id="courseMenuWrapper">
+          <button id="courseMenuToggle" title="Course Options">Manage</button>
+          <div id="courseMenu" class="hidden">
+            <div class="menuLabel">Course tools</div>
+            <button id="renameCourse" title="Rename Course">Rename</button>
+            <button id="deleteCourse" title="Delete Course" class="danger-button">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="atemStatusStrip">
+        <div class="atem-status-strip-primary">
+          <button id="atemRecordToggleBtn" type="button" class="atem-record-toggle-btn">REC</button>
+          <span class="atem-status-strip-label">Recording</span>
+          <span id="atemStatusStripRecording" class="atem-status-strip-value">Off</span>
+        </div>
+        <div class="atem-status-strip-secondary">
+          <span id="atemStatusStripConnection" class="atem-status-strip-connection">ATEM disconnected</span>
+        </div>
       </div>
     </div>
-    <div id="courseMenuWrapper">
-      <button id="courseMenuToggle">&#8942;</button>
-      <div id="courseMenu" class="hidden">
-        <button id="renameCourse" title="Rename Course">✏️</button>
-        <button id="deleteCourse" title="Delete Course">🗑️</button>
+
+    <div class="app-section app-notes-section">
+      <div id="notePanel">
+        <div id="noteInputs">
+          <input id="codeInput" placeholder="Code" />
+          <div id="noteInputWrapper">
+            <input id="noteInput" placeholder="Production Notes" />
+            <button id="addNote">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="batchControls" class="hidden">
+        <button id="deleteSelected" class="danger-button">Delete Selected</button>
+        <button id="deselectAll">Deselect All</button>
+      </div>
+
+      <button id="toggleNotesLog">Hide Log</button>
+
+      <div id="notesLog"></div>
+    </div>
+
+    <div class="app-section app-atem-section">
+      <div class="section-divider" aria-hidden="true"></div>
+
+      <div id="atemPanel">
+        <div class="atem-panel-header">
+          <h2>ATEM Control Panel</h2>
+          <div class="atem-panel-header-actions">
+            <button id="atemSwitcherToggle" type="button" class="atem-toggle-btn atem-gear-btn" aria-expanded="false" aria-label="ATEM settings" title="ATEM settings">&#9881;</button>
+          </div>
+        </div>
+
+        <div id="atemSwitcherContent" class="atem-switcher-content hidden">
+          <div class="atem-settings-grid">
+            <div class="atem-settings-block">
+              <div class="atem-settings-label">Connection</div>
+              <div class="atem-connection-row">
+                <input id="atemIpInput" placeholder="ATEM IP Address" />
+                <button id="atemConnectBtn">Connect</button>
+                <button id="atemDisconnectBtn">Disconnect</button>
+              </div>
+            </div>
+            <div class="atem-settings-block">
+              <div class="atem-settings-label">Record Filename</div>
+              <div class="atem-record-row">
+                <input id="recordFilenameInput" placeholder="Recording filename base" />
+                <button id="applyRecordNameBtn">Apply Name</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="atem-card atem-switcher-card">
+          <div class="atem-switching-rows">
+            <div class="atem-camera-stack">
+              <div class="atem-camera-row">
+                <div class="atem-camera-row-label">Preview</div>
+                <div id="atemPreviewRow" class="atem-camera-row-buttons"></div>
+              </div>
+              <div class="atem-camera-row">
+                <div class="atem-camera-row-label">Program</div>
+                <div id="atemProgramRow" class="atem-camera-row-buttons"></div>
+              </div>
+            </div>
+            <button id="atemOutput4ToggleBtn" type="button" class="atem-output4-tile">Multiview</button>
+          </div>
+        </div>
+
+        <div id="atemStatusText" class="atem-panel-status-line">Waiting for bridge...</div>
       </div>
     </div>
-  </div>
 
-  <div id="notePanel">
-    <div id="noteInputs">
-      <input id="codeInput" placeholder="Code" />
-      <div id="noteInputWrapper">
-        <input id="noteInput" placeholder="Production Notes" />
-        <button id="addNote">Send</button>
-      </div>
+    <div id="bottomBar">
+      <button id="exportCsv">Export CSV</button>
+      <div class="ipDisplay">IP: <span id="ipAddress">...</span></div>
     </div>
+
+    <button id="toggleDevConsole">Dev Console</button>
+    <div id="devConsole"><div id="devConsoleLog"></div></div>
   </div>
-
-  <div id="batchControls" class="hidden">
-    <button id="deleteSelected">Delete Selected</button>
-    <button id="deselectAll">Deselect All</button>
-  </div>
-
-  <button id="toggleNotesLog">Hide Log</button>
-
-  <div id="notesLog"></div>
-
-  <div id="bottomBar">
-    <button id="exportCsv">Export CSV</button>
-    <div>IP: <span id="ipAddress">...</span></div>
-  </div>
-
-  <button id="toggleDevConsole">Dev Console</button>
-  <div id="devConsole"><div id="devConsoleLog"></div></div>
 
   <div id="renameModal" class="modalOverlay">
     <div class="modal">
@@ -111,6 +191,5 @@
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
-  </div>
 </body>
 </html>
